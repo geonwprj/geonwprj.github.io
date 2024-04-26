@@ -74,4 +74,5 @@ $(document).ready(() => {
     div.append(title);
     div.append("<br>");
     div.append(index);
+    $("body").append(div);
 })
