@@ -100,6 +100,9 @@ function formatText(text) {
 }
 
 function formatChineseText(text) {
+  // Normalize extended sequences of punctuation
+  text = text.replace(/……+/g, '……').replace(/——+/g, '——');
+
   // Function to handle the special case for text within quotation marks
   function handleQuotation(text) {
     const quoteRegex = /“[^”]*”/g;
@@ -139,8 +142,6 @@ function formatChineseText(text) {
   // Wrap the entire text in an opening and closing paragraph tag
   return `<p>${formattedText}</p>`;
 }
-
-
 
 $(document).ready(() => {
     const title = getAllUrlParams().book;
