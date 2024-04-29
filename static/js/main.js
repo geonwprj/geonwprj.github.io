@@ -92,7 +92,7 @@ $(document).ready(() => {
     const index = getAllUrlParams().index;
 
     let url = "https://www.bg3.co/novel/pagea/";
-    url += `${title}-${index}.html`
+    url += `${title}_${index}.html`
     const selector = "div.title,div.content"
 
     let content = document.createElement("div");
