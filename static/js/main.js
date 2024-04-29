@@ -163,11 +163,14 @@ $(document).ready(() => {
     url += `${title}_${index}.html`
     const selector = "title,div.content"
 
-    let contentdiv = document.createElement("div");
+    let contentdiv = document.createElement("article");
+    let sectiondiv = document.createElement("section");
     let titlediv = document.createElement("div");
     let log = document.createElement("div");
     titlediv.id = "title";
     contentdiv.id = "content";
+    sectiondiv.id = "section";
+    contentdiv.append(sectiondiv);
     log.id = "log";
 
     $("body").append(titlediv);
@@ -179,12 +182,14 @@ $(document).ready(() => {
     
     getScrape(url, selector).then(rtn => {
       let chapter = rtn.result["title"][0].split("-")[0].trim();
+      $("head").append(`<meta property="og:title" content="${chapter}">`)
+      $("head").append(`<title>${chapter}</title>`)
       let novel = rtn.result["div.content"][0];
 //      novel = novel.replace("分享給朋友：$", "").trim();
 //      novel = formatChineseText(novel);
       novel = splitText(novel).join("——");
-      $("#title").append(chapter);
-      $("#content").append(novel);
+//      $("#title").append(chapter);
+      $("#section").append(novel);
 
     }).catch(e => console.error(e));
 
