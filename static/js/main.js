@@ -122,6 +122,7 @@ $(document).ready(() => {
     getScrape(url, selector).then(rtn => {
       let chapter = rtn.result["title"][0].split("-")[0].trim();
       let novel = rtn.result["div.content"][0];
+      novel = novel.replace("分享給朋友：$");
       novel = formatText(novel);
       $("#content").append(`${chapter}<br><br>`);
       $("#content").append(`${novel}<br>`);
