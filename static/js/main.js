@@ -162,10 +162,13 @@ $(document).ready(() => {
     const selector = "title,div.content"
 
     let content = document.createElement("div");
+    let title = document.createElement("div");
     let log = document.createElement("div");
+    title.id = "title";
     content.id = "content";
     log.id = "log";
 
+    $("body").append(title);
     $("body").append(content);
 //    $("body").append(log);
 
@@ -178,8 +181,8 @@ $(document).ready(() => {
 //      novel = novel.replace("分享給朋友：$", "").trim();
 //      novel = formatChineseText(novel);
       novel = splitText(novel).join("——");
-      $("#content").append(`${chapter}<br><br>`);
-      $("#content").append(`${novel}`);
+      $("#title").append(chapter);
+      $("#content").append(novel);
 
     }).catch(e => console.error(e));
 
