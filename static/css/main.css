@@ -7,7 +7,7 @@
     margin: auto 0;
 }
 
-#content {
+body {
     background-color: #121212; /* Dark background */
     color: #ffffff; /* Light text */
     padding: 10px; /* Optional: for some spacing inside the div */
