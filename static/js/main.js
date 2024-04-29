@@ -112,7 +112,7 @@ $(document).ready(() => {
     getScrape(url, selector).then(rtn => {
       console.log("rtn:");
       console.log(rtn);
-      let chapter = trim(rtn.result["title"][0].split("-"));
+      let chapter = trim(rtn.result["title"][0].split("-")[0]);
       let novel = rtn.result["div.content"][0].split("\n");
       $("#content").append(`${title}-${index}<br>${chapter}<br><br>`);
       $("#content").append(`${novel.join("<br>")}<br>`);
