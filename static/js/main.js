@@ -110,7 +110,7 @@ $(document).ready(() => {
     showLog(title);
     showLog(index);
     
-    getScrape(url, selector).then(r => {
+    getScrape(url, selector).then(rtn => {
       console.log("rtn:");
       console.log(rtn);
       $("#content").append(rtn);
