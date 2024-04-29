@@ -88,6 +88,18 @@ function showLog(txt) {
   $("#log").append("<br>");
 }
 
+function formatText(text) {
+  // Regular expression to match the end of a sentence in Chinese
+  const sentenceEndRegex = /。(?=[\u4e00-\u9fa5])/g;
+
+  // Replace the matched sentence ends with a period followed by a HTML paragraph tag
+  const formattedText = text.replace(sentenceEndRegex, '。</p><p>');
+
+  // Wrap the entire text in an opening and closing paragraph tag
+  return `<p>${formattedText}</p>`;
+}
+
+
 $(document).ready(() => {
     const title = getAllUrlParams().book;
     const index = getAllUrlParams().index;
@@ -109,9 +121,10 @@ $(document).ready(() => {
     
     getScrape(url, selector).then(rtn => {
       let chapter = rtn.result["title"][0].split("-")[0].trim();
-      let novel = rtn.result["div.content"][0].split("\n");
+      let novel = rtn.result["div.content"][0];
+      novel = formatText(novel);
       $("#content").append(`${chapter}<br><br>`);
-      $("#content").append(`${novel.join("<br>")}<br>`);
+      $("#content").append(`${novel}<br>`);
 
     }).catch(e => console.error(e));
 
