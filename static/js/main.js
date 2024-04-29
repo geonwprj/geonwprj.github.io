@@ -73,8 +73,11 @@ function getScrape(source, selector) {
   }
   showLog(url);
   fetch(url).then((r) => {
+    console.log(r.body);
     if (r.status===200) {
       return r.json();
+    } else {
+      showLog(r.status);
     }
   }).catch((e) => {
     console.error(e);
