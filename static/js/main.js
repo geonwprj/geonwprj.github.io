@@ -71,7 +71,15 @@ function getScrape(source, selector) {
   if (url||"" != "") {
     url += "&url=" + encodeURIComponent(url);
   }
-
+  showLog(url);
+  fetch(url).then((r) => {
+    if (r.status===200) {
+      return r.json();
+    }
+  }).catch((e) => {
+    console.error(e);
+  });
+  return {};
 }
 
 function showLog(txt) {
