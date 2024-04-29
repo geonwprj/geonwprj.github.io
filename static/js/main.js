@@ -96,7 +96,7 @@ $(document).ready(() => {
 
     let url = "https://www.bg3.co/novel/pagea/";
     url += `${title}_${index}.html`
-    const selector = "div.title,div.content"
+    const selector = "title,div.content"
 
     let content = document.createElement("div");
     let log = document.createElement("div");
@@ -112,7 +112,7 @@ $(document).ready(() => {
     getScrape(url, selector).then(rtn => {
       console.log("rtn:");
       console.log(rtn);
-      let chapter = rtn.result["div.title"][0];
+      let chapter = trim(rtn.result["title"][0].split("-"));
       let novel = rtn.result["div.content"][0].split("\n");
       $("#content").append(`${title}-${index}<br>${chapter}<br><br>`);
       $("#content").append(`${novel.join("<br>")}<br>`);
