@@ -112,10 +112,11 @@ $(document).ready(() => {
     getScrape(url, selector).then(rtn => {
       console.log("rtn:");
       console.log(rtn);
-      $("#content").append(rtn.result["div.title"][0]);
-      $("#content").append("<br>");
-      $("#content").append(rtn.result["div.content"][0]);
-      $("#content").append("<br>");
+      let chapter = rtn.result["div.title"][0];
+      let novel = rtn.result["div.content"][0].split("\n");
+      $("#content").append(`${title}-${index}<br>${chapter}<br><br>`);
+      $("#content").append(`${novel.join("<br>")}<br>`);
+
     }).catch(e => console.error(e));
 
     //    qingyunian-maoni_378.html
