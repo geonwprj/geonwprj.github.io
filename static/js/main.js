@@ -108,10 +108,9 @@ $(document).ready(() => {
     
     const rtn = getScrape(url, selector);
     console.log("rtn:");
-    console.log(rtn.result["div.title"][0]);
-    console.log(rtn.result["div.content"][0]);
+    console.log(rtn);
 
-    $("#content").append(rtn.result["div.title"][0]);
+    $("#content").append("");
 
     //    qingyunian-maoni_378.html
 //    ?book=qingyunian-maoni&index=378
