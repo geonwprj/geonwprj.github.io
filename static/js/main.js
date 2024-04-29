@@ -114,7 +114,7 @@ $(document).ready(() => {
       console.log(rtn);
       let chapter = trim(rtn.result["title"][0].split("-")[0]);
       let novel = rtn.result["div.content"][0].split("\n");
-      $("#content").append(`${title}-${index}<br>${chapter}<br><br>`);
+      $("#content").append(`${chapter}<br><br>`);
       $("#content").append(`${novel.join("<br>")}<br>`);
 
     }).catch(e => console.error(e));
