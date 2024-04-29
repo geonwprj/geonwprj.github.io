@@ -144,8 +144,10 @@ function splitText(text) {
   text = text.replace(/щшш(.*)co/g, "——").replace(/Wшw(.*)￠ ○ /g, "——");
   text = text.replace(/章節報錯(.*)分享給朋友：/g, "\n\n章節報錯");
   text = text.replace(/……+/g, "……").replace(/——+/g, "——");
-  text = text.replace(/” “/g, "”\n“");
-  text = text.replace(/。 /g, "。\n").replace(/“.\n”/g, ".”").replace(/” /g, "”\n");
+  text = text.replace(/ /g, "\n");
+
+//  text = text.replace(/” “/g, "”\n“");
+//  text = text.replace(/。 /g, "。\n").replace(/“.\n”/g, ".”").replace(/” /g, "”\n");
   return text.split("——").reduce((p, v) => {
     let val = v.trim().replace(/\n/g, "<br>");
     p.push(`<p>${val}</p>`);
@@ -161,15 +163,15 @@ $(document).ready(() => {
     url += `${title}_${index}.html`
     const selector = "title,div.content"
 
-    let content = document.createElement("div");
-    let title = document.createElement("div");
+    let contentdiv = document.createElement("div");
+    let titlediv = document.createElement("div");
     let log = document.createElement("div");
-    title.id = "title";
-    content.id = "content";
+    titlediv.id = "title";
+    contentdiv.id = "content";
     log.id = "log";
 
-    $("body").append(title);
-    $("body").append(content);
+    $("body").append(titlediv);
+    $("body").append(contentdiv);
 //    $("body").append(log);
 
 //    showLog(title);
