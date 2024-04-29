@@ -71,12 +71,10 @@ function getScrape(source, selector) {
   if (source||"" != "") {
     url += "&url=" + encodeURIComponent(source);
   }
-  showLog(url);
   return fetch(url).then((r) => {
     if (r.status===200) {
       return r.json();
     } else {
-      showLog(r.status);
       return {};
     }
   }).catch((e) => {
@@ -104,14 +102,12 @@ $(document).ready(() => {
     log.id = "log";
 
     $("body").append(content);
-    $("body").append(log);
+//    $("body").append(log);
 
-    showLog(title);
-    showLog(index);
+//    showLog(title);
+//    showLog(index);
     
     getScrape(url, selector).then(rtn => {
-      console.log("rtn:");
-      console.log(rtn);
       let chapter = trim(rtn.result["title"][0].split("-")[0]);
       let novel = rtn.result["div.content"][0].split("\n");
       $("#content").append(`${chapter}<br><br>`);
