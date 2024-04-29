@@ -101,7 +101,7 @@ function formatText(text) {
 
 function formatChineseText(text) {
   // Normalize extended sequences of punctuation
-  text = text.replace(/……+/g, '……').replace(/——+/g, '——');
+  text = text.replace(/…………/g, '……').replace(/————/g, '——');
 
   // Function to handle the special case for text within quotation marks
   function handleQuotation(text) {
