@@ -68,8 +68,8 @@ function getScrape(source, selector) {
   if (selector||"" != "") {
     url += "&selector=" + encodeURIComponent(selector);
   }
-  if (url||"" != "") {
-    url += "&url=" + encodeURIComponent(url);
+  if (source||"" != "") {
+    url += "&url=" + encodeURIComponent(source);
   }
   showLog(url);
   fetch(url).then((r) => {
