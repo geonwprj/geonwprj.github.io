@@ -98,7 +98,7 @@ function formatText(text) {
 function formatChineseText(text) {
   // Normalize extended sequences of punctuation
 //  text = text.replace(/……+/g, '……').replace(/——+/g, '——');
-  for (var i=0;i<50;i++) text = text.replace("………", "……").replace("———", "——");
+for (var i=0;i<50;i++) text = text.replace("………", "……").replace("———", "——");
 
   // Function to handle the special case for text within quotation marks
   function handleQuotation(text) {
@@ -140,6 +140,17 @@ function formatChineseText(text) {
   return `<p>${formattedText}</p>`;
 }
 
+function splitText(text) {
+  text = text.replace(/……/g, "……").replace(/——+/g, "——");
+  text = text.replace(/” “/g, "”\n“");
+  text = text.replace(/。 /g, "。\n").replace(/“.\n”/g, ".”").replace(/” /g, "”\n");
+  return text.split("——").reduce((p, v) => {
+    let val = v.trim().replace(/\n/g, "<br>");
+    p.push(`<p>${val}</p>`);
+    return p;
+  })
+}
+
 $(document).ready(() => {
     const title = getAllUrlParams().book;
     const index = getAllUrlParams().index;
@@ -164,7 +175,7 @@ $(document).ready(() => {
       let novel = rtn.result["div.content"][0];
 //      novel = novel.replace("分享給朋友：$", "").trim();
 //      novel = formatChineseText(novel);
-      novel = formatText(novel);
+      novel = splitText(novel).join("——");
       $("#content").append(`${chapter}<br><br>`);
       $("#content").append(`${novel}<br>`);
 
