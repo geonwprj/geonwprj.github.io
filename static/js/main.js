@@ -63,16 +63,45 @@ function getAllUrlParams(url) {
     return obj;
   }
 
+function getScrape(source, selector) {
+  let url = "https://web.scraper.workers.dev/?scrape=text";
+  if (select||"" != "") {
+    url += "&selector=" + encodeURIComponent(selector);
+  }
+  if (url||"" != "") {
+    url += "&url=" + encodeURIComponent(url);
+  }
+
+}
+
+function showLog(txt) {
+  $("#log").append(txt);
+  $("#log").append("<br>");
+}
+
 $(document).ready(() => {
     const title = getAllUrlParams().book;
     const index = getAllUrlParams().index;
-//    qingyunian-maoni_378.html
+
+    let url = "https://www.bg3.co/novel/pagea/";
+    url += `${title}-${index}.html`
+    const selector = "div.title,div.content"
+
+    let content = document.createElement("div");
+    let log = document.createElement("div");
+    content.id = "content";
+    log.id = "log";
+
+    $("body").append(content);
+    $("body").append(log);
+
+    showLog(title);
+    showLog(index);
+    
+    const rtn = getScrape(url, selector);
+
+    $("#content").append(rtn);
+
+    //    qingyunian-maoni_378.html
 //    ?book=qingyunian-maoni&index=378
-    let div = document.createElement("div");
-    div.append("?book=qingyunian-maoni&index=378");
-    div.append("<br>");
-    div.append(title);
-    div.append("<br>");
-    div.append(index);
-    $("body").append(div);
 })
