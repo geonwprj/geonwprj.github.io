@@ -90,10 +90,10 @@ function showLog(txt) {
 
 function formatText(text) {
   // Regular expression to match the end of a sentence in Chinese
-  const sentenceEndRegex = /。(?=[\u4e00-\u9fa5])/g;
+  const sentenceEndRegex = /([。！……——”])(?=[\u4e00-\u9fa5])/g;
 
-  // Replace the matched sentence ends with a period followed by a HTML paragraph tag
-  const formattedText = text.replace(sentenceEndRegex, '。</p><p>');
+  // Replace the matched sentence ends with the delimiter followed by a HTML paragraph tag
+  const formattedText = text.replace(sentenceEndRegex, '$1</p><p>');
 
   // Wrap the entire text in an opening and closing paragraph tag
   return `<p>${formattedText}</p>`;
@@ -122,7 +122,7 @@ $(document).ready(() => {
     getScrape(url, selector).then(rtn => {
       let chapter = rtn.result["title"][0].split("-")[0].trim();
       let novel = rtn.result["div.content"][0];
-      novel = novel.replace("分享給朋友：$");
+      novel = novel.replace("分享給朋友：$", "").trim();
       novel = formatText(novel);
       $("#content").append(`${chapter}<br><br>`);
       $("#content").append(`${novel}<br>`);
