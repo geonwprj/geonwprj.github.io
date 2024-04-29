@@ -164,6 +164,7 @@ $(document).ready(() => {
 
     let url = "https://www.bg3.co/novel/pagea/";
     url += `${title}_${index}.html`
+    console.log(url);
     const selector = "title,div.content"
 
     let contentdiv = document.createElement("article");
