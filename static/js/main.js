@@ -141,7 +141,7 @@ for (var i=0;i<50;i++) text = text.replace("………", "……").replace("—�
 }
 
 function splitText(text) {
-  text = text.replace(/……/g, "……").replace(/——+/g, "——");
+  text = text.replace(/……+/g, "……").replace(/——+/g, "——");
   text = text.replace(/” “/g, "”\n“");
   text = text.replace(/。 /g, "。\n").replace(/“.\n”/g, ".”").replace(/” /g, "”\n");
   return text.split("——").reduce((p, v) => {
