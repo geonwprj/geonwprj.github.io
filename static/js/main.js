@@ -72,17 +72,18 @@ function getScrape(source, selector) {
     url += "&url=" + encodeURIComponent(source);
   }
   showLog(url);
-  fetch(url).then((r) => {
+  return fetch(url).then((r) => {
     console.log(r.body);
     if (r.status===200) {
       return r.json();
     } else {
       showLog(r.status);
+      return {};
     }
   }).catch((e) => {
     console.error(e);
+    return {};
   });
-  return {};
 }
 
 function showLog(txt) {
@@ -109,11 +110,11 @@ $(document).ready(() => {
     showLog(title);
     showLog(index);
     
-    const rtn = getScrape(url, selector);
-    console.log("rtn:");
-    console.log(rtn);
-
-    $("#content").append("");
+    getScrape(url, selector).then(r => {
+      console.log("rtn:");
+      console.log(rtn);
+      $("#content").append(rtn);
+    }).catch(e => console.error(e));
 
     //    qingyunian-maoni_378.html
 //    ?book=qingyunian-maoni&index=378
