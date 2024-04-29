@@ -102,8 +102,8 @@ function formatText(text) {
 function formatChineseText(text) {
   // Normalize extended sequences of punctuation
 //  text = text.replace(/……+/g, '……').replace(/——+/g, '——');
-  for (var i=0;i<5;i++) text = text.replace("…………", "……").replace("————", "——");
-  
+  for (var i=0;i<50;i++) text = text.replace("…………", "……").replace("————", "——");
+
   // Function to handle the special case for text within quotation marks
   function handleQuotation(text) {
     const quoteRegex = /“[^”]*”/g;
