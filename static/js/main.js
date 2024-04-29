@@ -164,7 +164,7 @@ $(document).ready(() => {
       let novel = rtn.result["div.content"][0];
 //      novel = novel.replace("分享給朋友：$", "").trim();
 //      novel = formatChineseText(novel);
-      novel = formatText(text);
+      novel = formatText(novel);
       $("#content").append(`${chapter}<br><br>`);
       $("#content").append(`${novel}<br>`);
 
