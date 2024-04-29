@@ -148,7 +148,7 @@ function splitText(text) {
     let val = v.trim().replace(/\n/g, "<br>");
     p.push(`<p>${val}</p>`);
     return p;
-  })
+  }, [])
 }
 
 $(document).ready(() => {
@@ -177,7 +177,7 @@ $(document).ready(() => {
 //      novel = formatChineseText(novel);
       novel = splitText(novel).join("——");
       $("#content").append(`${chapter}<br><br>`);
-      $("#content").append(`${novel}<br>`);
+      $("#content").append(`${novel}`);
 
     }).catch(e => console.error(e));
 
