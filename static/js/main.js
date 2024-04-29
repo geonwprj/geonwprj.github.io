@@ -99,6 +99,48 @@ function formatText(text) {
   return `<p>${formattedText}</p>`;
 }
 
+function formatChineseText(text) {
+  // Function to handle the special case for text within quotation marks
+  function handleQuotation(text) {
+    const quoteRegex = /“[^”]*”/g;
+    return text.match(quoteRegex) || [];
+  }
+
+  // Function to split text outside of quotations into sentences
+  function splitSentences(text, quotes) {
+    // Replace quotes with a placeholder to avoid splitting sentences inside quotes
+    quotes.forEach((quote, index) => {
+      text = text.replace(quote, `QUOTE_PLACEHOLDER_${index}`);
+    });
+
+    // Split the text using the specified delimiters
+    const delimiterRegex = /([。！……——”])/g;
+    let sentences = text.split(delimiterRegex);
+
+    // Re-insert the quotes in their original positions
+    sentences = sentences.map(sentence => {
+      const quotePlaceholderRegex = /QUOTE_PLACEHOLDER_(\d+)/;
+      const match = quotePlaceholderRegex.exec(sentence);
+      return match ? quotes[parseInt(match[1], 10)] : sentence;
+    });
+
+    return sentences;
+  }
+
+  // Get all the quotations as separate sentences
+  const quotes = handleQuotation(text);
+
+  // Split the rest of the text into sentences
+  let sentences = splitSentences(text, quotes);
+
+  // Filter out empty strings and join the sentences with paragraph tags
+  const formattedText = sentences.filter(Boolean).join('</p><p>');
+
+  // Wrap the entire text in an opening and closing paragraph tag
+  return `<p>${formattedText}</p>`;
+}
+
+
 
 $(document).ready(() => {
     const title = getAllUrlParams().book;
@@ -123,7 +165,7 @@ $(document).ready(() => {
       let chapter = rtn.result["title"][0].split("-")[0].trim();
       let novel = rtn.result["div.content"][0];
       novel = novel.replace("分享給朋友：$", "").trim();
-      novel = formatText(novel);
+      novel = formatChineseText(novel);
       $("#content").append(`${chapter}<br><br>`);
       $("#content").append(`${novel}<br>`);
 
