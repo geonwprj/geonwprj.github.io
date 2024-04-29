@@ -141,6 +141,8 @@ for (var i=0;i<50;i++) text = text.replace("………", "……").replace("—�
 }
 
 function splitText(text) {
+  text = text.replace(/щшш(.*)co/g, "——");
+  text = text.replace(/章節報錯 分享給朋友：/g, "\n章節報錯");
   text = text.replace(/……+/g, "……").replace(/——+/g, "——");
   text = text.replace(/” “/g, "”\n“");
   text = text.replace(/。 /g, "。\n").replace(/“.\n”/g, ".”").replace(/” /g, "”\n");
