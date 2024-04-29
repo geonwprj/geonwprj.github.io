@@ -8,6 +8,24 @@
 }
 
 #content {
-    height: 50%;
-    background-color: lightgoldenrodyellow;
-}
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* Light text */
+    padding: 10px; /* Optional: for some spacing inside the div */
+    border-radius: 5px; /* Optional: for rounded corners */
+  }
+  
+  /* If you want to style the scrollbar as well */
+  ::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #0d0d0d; /* Track color */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #424242; /* Handle color */
+    border-radius: 20px;
+    border: 3px solid #0d0d0d; /* Handle border */
+  }
+  
