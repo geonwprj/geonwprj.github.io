@@ -65,7 +65,7 @@ function getAllUrlParams(url) {
 
 function getScrape(source, selector) {
   let url = "https://web.scraper.workers.dev/?scrape=text";
-  if (select||"" != "") {
+  if (selector||"" != "") {
     url += "&selector=" + encodeURIComponent(selector);
   }
   if (url||"" != "") {
