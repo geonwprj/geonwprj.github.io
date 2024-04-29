@@ -3,6 +3,7 @@ function getAllUrlParams(url) {
 //    url = (url||window.location.search.slice(1)).replace(/\\u0026/g, "&");
     // get query string from url (optional) or window
     var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+    queryString = queryString.replace(/\\u0026/g, "&");
     console.log(`queryString: ${queryString}`);
   
     // we'll store the parameters here
