@@ -57,7 +57,6 @@ $(document).ready(() => {
           maindiv.append(delimitdiv);
         }
         const val = novelTxt[i];
-        console.log(val);
         maindiv.innerHTML += val;
       }
 /*      novel = splitText(novel).join("——");
