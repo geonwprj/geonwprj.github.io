@@ -27,9 +27,9 @@ $(document).ready(() => {
       let maindiv = document.createElement("main");
   
       let titlediv = document.createElement("h1");
-      titlediv.append(chapter);
+      titlediv.append(subchapter);
       let subtitlediv = document.createElement("div");
-      subtitlediv.append(subchapter);
+//      subtitlediv.append(subchapter);
   
       let byline = document.createElement("div");
       byline.classList.add("byline");
