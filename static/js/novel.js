@@ -36,7 +36,7 @@ $(document).ready(() => {
     authorlink.setAttribute("href", "/");
     authorlink.append(author);
     byline.append(authorlink);
-    byline(" -- ");
+    byline.append(" -- ");
     let timediv = document.createElement("time");
     timediv.setAttribute("datetime", "2024-04-01T00:00:00Z");
     timediv.append("April 1, 2024");
