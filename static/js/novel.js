@@ -8,34 +8,6 @@ $(document).ready(() => {
 
     let author = title.split("-")[1].trim();
 
-    let maindiv = document.createElement("main");
-    maindiv.id = "main";
-
-    let titlediv = document.createElement("h1");
-    titlediv.id = "titlediv";
-    let subtitlediv = document.createElement("div");
-    subtitlediv.id = "subtitlediv";
-
-    let byline = document.createElement("div");
-    byline.classList.add("byline");
-    byline.append("By ");
-//    <a href="/">${author}</a>
-    let authorlink = document.createElement("a");
-    authorlink.setAttribute("href", "/");
-    authorlink.append(author);
-    byline.append(authorlink);
-    byline.append(" -- ");
-    let timediv = document.createElement("time");
-    timediv.setAttribute("datetime", "2024-04-01T00:00:00Z");
-    timediv.append("April 1, 2024");
-    byline.append(timediv);
-
-    maindiv.append(titlediv);
-    maindiv.append(subtitlediv);
-    maindiv.append(byline);
-
-    $("body").append(maindiv);
-
     getScrape(url, selector).then(rtn => {
       let chapter = rtn.result["title"][0].split("-")[0].trim();
       chapter = chapter.split("-")[0].trim().replace(/⚡/g, "").trim();
@@ -49,12 +21,38 @@ $(document).ready(() => {
   
       $("head").append(`<meta property="og:title" content="${chapter} - ${subchapter}">`)
       $("head").append(`<title>${chapter} - ${subchapter}</title>`);
-      $("#titlediv").append(chapter);
-      $("#subtitlediv").append(subchapter);
+//      $("#titlediv").append(chapter);
+//      $("#subtitlediv").append(subchapter);
 
+      let maindiv = document.createElement("main");
+  
+      let titlediv = document.createElement("h1");
+      titlediv.append(chapter);
+      let subtitlediv = document.createElement("div");
+      subtitlediv.append(subchapter);
+  
+      let byline = document.createElement("div");
+      byline.classList.add("byline");
+      byline.append("By ");
+      let authorlink = document.createElement("a");
+      authorlink.setAttribute("href", "/");
+      authorlink.append(author);
+      byline.append(authorlink);
+      byline.append(" -- ");
+      let timediv = document.createElement("time");
+      timediv.setAttribute("datetime", "2024-04-01T00:00:00Z");
+      timediv.append("April 1, 2024");
+      byline.append(timediv);
+  
+      maindiv.append(titlediv);
+      maindiv.append(subtitlediv);
+      maindiv.append(byline);
+  
       let novel = rtn.result["div.content"][0];
       novel = splitText(novel).join("——");
       $("#main").append(novel);
+
+      $("body").append(maindiv);  
 
     }).catch(e => console.error(e));
 
