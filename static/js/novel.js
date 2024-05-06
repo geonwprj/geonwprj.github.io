@@ -56,9 +56,10 @@ $(document).ready(() => {
           delimitdiv.append("---");
           maindiv.append(delimitdiv);
         }
-        console.log(v);
-        console.log($(v));
-        maindiv.append($(v));
+        const val = novelTxt[i];
+        console.log(val);
+        console.log($(val));
+        maindiv.append($(val));
       }
 /*      novel = splitText(novel).join("——");
       console.log(novel);
