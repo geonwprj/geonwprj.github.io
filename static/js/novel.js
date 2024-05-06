@@ -1,21 +1,9 @@
-/* <main>
-<h1>Your title<h1>
-<div>Your subtitle</div>
-<div class="byline">
-By <a href="/">Your Name</a> -- 
-<time datetime="2018-04-06T05:52:50Z">April 6, 2018</time>
-</div>
-<p> article content... </p>
-<p> article content... </p>
-</main> */
-
 $(document).ready(() => {
     const title = getAllUrlParams().book;
     const index = getAllUrlParams().index;
 
     let url = "https://www.bg3.co/novel/pagea/";
     url += `${title}_${index}.html`
-    console.log(url);
     const selector = "title,div.content"
 
     let author = title.split("-")[1].trim();
