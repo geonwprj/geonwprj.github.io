@@ -44,7 +44,7 @@ $(document).ready(() => {
 
     getScrape(url, selector).then(rtn => {
       let chapter = rtn.result["title"][0].split("-")[0].trim();
-      chapter = chapter.split("-")[0].trim().replace(/⚡/g, "");
+      chapter = chapter.split("-")[0].trim().replace(/⚡/g, "").trim();
       const chapterobj = chapter.split(" ");
       let subchapter = chapterobj[1].trim();
       for (var i=2; i<chapterobj.length; i++) {
