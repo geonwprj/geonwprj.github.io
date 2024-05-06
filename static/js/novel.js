@@ -31,7 +31,7 @@ $(document).ready(() => {
     let byline = document.createElement("div");
     byline.classList.add("byline");
     byline.append("By ");
-    <a href="/">${author}</a>
+//    <a href="/">${author}</a>
     let authorlink = document.createElement("a");
     authorlink.setAttribute("href", "/");
     authorlink.append(author);
