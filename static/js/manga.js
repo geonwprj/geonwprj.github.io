@@ -10,6 +10,7 @@ $(document).ready(() => {
     $("body").append(log);
 
     let url = "https://cc.fun8.us/post/115200011104001.html";
+    url = "https://m.manhuagui.com/comic/1147/10537.html";
     fetch(url).then((r) => {
         if (r.status===200) {
           $("#content").append(r.text());
