@@ -51,6 +51,7 @@ $(document).ready(() => {
         subchapter += " " + chapterobj[i];
       }
       chapter = chapterobj[0];
+      chapter = chapter.replace(/《/g, "").replace(/》/g, "");
   
       $("head").append(`<meta property="og:title" content="${chapter} - ${subchapter}">`)
       $("head").append(`<title>${chapter} - ${subchapter}</title>`);
