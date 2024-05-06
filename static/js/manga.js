@@ -1,13 +1,33 @@
 // https://cc.fun8.us/post/115200011104001.html
 
 $(document).ready(() => {
-    const title = getAllUrlParams().book;
-    const index = getAllUrlParams().index;
 
-    let url = "https://www.bg3.co/novel/pagea/";
-    url += `${title}_${index}.html`
-    console.log(url);
-    const selector = "title,div.content"
+    let content = document.createElement("div");
+    let log = document.createElement("div");
+    content.id = "content";
+    log.id = "log";
+    $("body").append(content);
+    $("body").append(log);
+
+    let url = "https://cc.fun8.us/post/115200011104001.html";
+    fetch(url).then((r) => {
+        if (r.status===200) {
+          $("#content").append(r.text());
+        } else {
+          return {};
+        }
+      }).catch((e) => {
+        console.error(e);
+        $("#log").append(e);
+        return {};
+      });    
+    // const title = getAllUrlParams().book;
+    // const index = getAllUrlParams().index;
+
+    // let url = "https://www.bg3.co/novel/pagea/";
+    // url += `${title}_${index}.html`
+    // console.log(url);
+    // const selector = "title,div.content"
 
     // let contentdiv = document.createElement("article");
     // let sectiondiv = document.createElement("section");
