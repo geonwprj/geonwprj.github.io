@@ -30,7 +30,13 @@ $(document).ready(() => {
 
     let byline = document.createElement("div");
     byline.classList.add("byline");
-    byline.append(`By <a href="/">${author}</a> -- `);
+    byline.append("By ");
+    <a href="/">${author}</a>
+    let authorlink = document.createElement("a");
+    authorlink.setAttribute("href", "/");
+    authorlink.append(author);
+    byline.append(authorlink);
+    byline(" -- ");
     let timediv = document.createElement("time");
     timediv.setAttribute("datetime", "2024-04-01T00:00:00Z");
     timediv.append("April 1, 2024");
