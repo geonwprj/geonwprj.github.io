@@ -32,7 +32,7 @@ $(document).ready(() => {
     byline.classList.add("byline");
     byline.append(`By <a href="/">${author}</a> -- `);
     let timediv = document.createElement("time");
-    timediv.setAttribute("datetime") = "";
+    timediv.setAttribute("datetime", "");
     timediv.append("");
     byline.append(timediv);
 
