@@ -49,9 +49,15 @@ $(document).ready(() => {
       maindiv.append(byline);
   
       let novel = rtn.result["div.content"][0];
-      novel = splitText(novel).join("——");
-      maindiv.append($(novel));
-
+      splitText(novel).map(v => {
+        console.log(v);
+        maindiv.append(v);
+        maindiv.append("---");
+      });
+/*      novel = splitText(novel).join("——");
+      console.log(novel);
+      maindiv.append(novel);
+*/
       $("body").append(maindiv);  
 
     }).catch(e => console.error(e));
