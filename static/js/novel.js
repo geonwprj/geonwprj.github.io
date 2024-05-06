@@ -49,11 +49,17 @@ $(document).ready(() => {
       maindiv.append(byline);
   
       let novel = rtn.result["div.content"][0];
-      splitText(novel).map(v => {
+      const novelTxt = splitText(novel);
+      for (var i=0; i<novelTxt.length; i++) {
+        if (i>0) {
+          let delimitdiv = document.createElement("p");
+          delimitdiv.append("---");
+          maindiv.append(delimitdiv);
+        }
         console.log(v);
-        maindiv.append(v);
-        maindiv.append("---");
-      });
+        console.log($(v));
+        maindiv.append($(v));
+      }
 /*      novel = splitText(novel).join("——");
       console.log(novel);
       maindiv.append(novel);
