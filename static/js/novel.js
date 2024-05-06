@@ -47,10 +47,10 @@ $(document).ready(() => {
       chapter = chapter.split("-")[0].trim().replace(/⚡/g, "");
       const chapterobj = chapter.split(" ");
       let subchapter = chapterobj[1].trim();
-      for (var i=2; i<=chapterobj.length; i++) {
+      for (var i=2; i<chapterobj.length; i++) {
         subchapter += " " + chapterobj[i];
       }
-      chapter = chapterobj[0];
+      chapter = chapterobj[0].trim();
       chapter = chapter.replace(/《/g, "").replace(/》/g, "");
   
       $("head").append(`<meta property="og:title" content="${chapter} - ${subchapter}">`)
