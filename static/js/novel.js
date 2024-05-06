@@ -50,7 +50,7 @@ $(document).ready(() => {
   
       let novel = rtn.result["div.content"][0];
       novel = splitText(novel).join("——");
-      $("#main").append(novel);
+      maindiv.append(novel);
 
       $("body").append(maindiv);  
 
