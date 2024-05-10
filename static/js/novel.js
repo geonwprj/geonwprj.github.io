@@ -1,10 +1,25 @@
-$(document).ready(() => {
+$(document).ready(async () => {
   const title = getAllUrlParams().book;
   const index = getAllUrlParams().index;
 
   let author = title.split("-")[1].trim();
-  getSource(title, index, author);
+  let isready = true
+  for (let i = 0; i<8; i++) {
+    const fnm = `./novel/${title}_${i}.data`;
+    isready &= await fileExists(fnm);
+    if (!isready) break;
+  }
+  if (isready) {
+
+  } else {
+    getSource(title, index, author);
+  }
 })
+
+async function fileExists(path) {
+  const req = await fetch(path);
+  return req.status != 404;
+}
 
 function getSource(title, index, author) {
   let url = "https://www.bg3.co/novel/pagea/";
