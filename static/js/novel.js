@@ -7,6 +7,7 @@ $(document).ready(async () => {
   for (let i = 0; i<8; i++) {
     const fnm = `./novel/${title}_${index}_${i}.data`;
     isready &= await fileExists(fnm);
+    $("body").append(`${fnm}: ${isready}<br>`);
     if (!isready) break;
   }
   if (isready) {
