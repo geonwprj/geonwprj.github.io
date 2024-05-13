@@ -14,13 +14,17 @@ $(document).ready(async () => {
     if (!isready) break;
   }
   if (isready) {
-    content.map(v => {
-      $("body").append(`<p>${v}</p>`);
-    })
+    formatOutput(content);
   } else {
     getSource(title, index, author);
   }
 })
+
+function formatOutput(content) {
+  content.map(v => {
+    $("body").append(`<p>${v}</p>`);
+  })
+}
 
 async function fileExists(path) {
   const req = await fetch(path);
