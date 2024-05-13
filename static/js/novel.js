@@ -4,14 +4,19 @@ $(document).ready(async () => {
 
   let author = title.split("-")[1].trim();
   let isready = true
+  let content = []
   for (let i = 0; i<8; i++) {
     const fnm = `novel/${title}_${index}_${i}.data`;
-    isready &= await fileExists(fnm);
-    $("body").append(`${fnm}: ${isready}<br>`);
+    const rtn = await fileExists(fnm);
+    isready &= rtn.exist;
+    if (rtn.content != null) content.push(rtn.content);
+//    $("body").append(`${fnm}: ${isready}<br>`);
     if (!isready) break;
   }
   if (isready) {
-
+    content.map(v => {
+      $("body").append(v+"<br>");
+    })
   } else {
     getSource(title, index, author);
   }
@@ -19,8 +24,11 @@ $(document).ready(async () => {
 
 async function fileExists(path) {
   const req = await fetch(path);
-  $("body").append(req.status);
-  return req.status != 404;
+  try {
+    return {"exist": req.status != 404, "content": await req.text()};
+  } catch (e) {
+    return {"exist": req.status != 404, "content": null};
+  }
 }
 
 function getSource(title, index, author) {
