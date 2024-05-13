@@ -9,7 +9,7 @@ $(document).ready(async () => {
     const fnm = `novel/${title}_${index}_${i}.data`;
     const rtn = await fileExists(fnm);
     isready &= rtn.exist;
-    if (rtn.content != null) content.push(rtn.content);
+    if (rtn.content != null) content.push(decodeURIComponent(escape(rtn.content)).replace(/\\n/g, "<br>"));
 //    $("body").append(`${fnm}: ${isready}<br>`);
     if (!isready) break;
   }
