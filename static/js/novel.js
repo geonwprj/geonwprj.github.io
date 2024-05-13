@@ -9,7 +9,7 @@ $(document).ready(async () => {
     const fnm = `novel/${title}_${index}_${i}.data`;
     const rtn = await fileExists(fnm);
     isready &= rtn.exist;
-    if (rtn.content != null) content.push(decodeURIComponent(escape(rtn.content)).replace(/\\n/g, "<br>"));
+    if (rtn.content != null) content.push(rtn.content.replace(/\\n/g, "<br>"));
 //    $("body").append(`${fnm}: ${isready}<br>`);
     if (!isready) break;
   }
@@ -25,7 +25,9 @@ $(document).ready(async () => {
 async function fileExists(path) {
   const req = await fetch(path);
   try {
-    return {"exist": req.status != 404, "content": await req.text()};
+    let cont = await req.text();
+    cont = decodeURIComponent(escape(cont));
+    return {"exist": req.status != 404, "content": cont};
   } catch (e) {
     return {"exist": req.status != 404, "content": null};
   }
