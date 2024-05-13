@@ -5,7 +5,7 @@ $(document).ready(async () => {
   let author = title.split("-")[1].trim();
   let isready = true
   for (let i = 0; i<8; i++) {
-    const fnm = `https://geonwprj.github.io/novel/${title}_${index}_${i}.data`;
+    const fnm = `novel/${title}_${index}_${i}.data`;
     isready &= await fileExists(fnm);
     $("body").append(`${fnm}: ${isready}<br>`);
     if (!isready) break;
@@ -19,6 +19,7 @@ $(document).ready(async () => {
 
 async function fileExists(path) {
   const req = await fetch(path);
+  $("body").append(req.status);
   return req.status != 404;
 }
 
