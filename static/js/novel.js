@@ -15,7 +15,7 @@ $(document).ready(async () => {
   }
   if (isready) {
     content.map(v => {
-      $("body").append(v+"<br>");
+      $("body").append(`<p>${v}</p>`);
     })
   } else {
     getSource(title, index, author);
