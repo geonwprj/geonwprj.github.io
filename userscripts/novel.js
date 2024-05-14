@@ -18,7 +18,7 @@
         for (var i = 0; i < paragraphs.length; i++) {
             // Replace '曰' with '日' in each paragraph
             if (i==0) alert(paragraphs[i]);
-            paragraphs[i].textContent = paragraphs[i].textContent.replace(/曰/g, '日').replace(/這世道，無官不貪/g, '';
+            paragraphs[i].textContent = paragraphs[i].textContent.replace(/曰/g, '日').replace(/這世道，無官不貪/g, '');
         }
     }
 
