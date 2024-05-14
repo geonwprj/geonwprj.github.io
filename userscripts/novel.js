@@ -18,14 +18,14 @@
 
     // Function to log messages
     function logging(message) {
-try {
-       var logArea = document.getElementById('logArea'); // Fixed missing parentheses
-       var logEntry = document.createElement('div');
-        logEntry.textContent = new Date().toLocaleTimeString() + ': ' + message;
-        logArea.insertBefore(logEntry, logArea.firstChild);
-} catch (e) {
-return;
-}
+        try {
+            var logArea = document.getElementById('logArea'); // Fixed missing parentheses
+            var logEntry = document.createElement('div');
+            logEntry.textContent = new Date().toLocaleTimeString() + ': ' + message;
+            logArea.insertBefore(logEntry, logArea.firstChild);
+        } catch (e) {
+            return;
+        }
     }
 
     // Function to set up the debug log area
