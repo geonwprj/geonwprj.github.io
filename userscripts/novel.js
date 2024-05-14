@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Content Character Replacer for bg3.co
-// @description  Replace '曰' with '日' in <p> elements
+// @name         Fix Content Character
+// @description  Replace char in contents
 // @match        https://www.bg3.co/novel/pagea/*
 // @updateURL    https://raw.githubusercontent.com/geonwprj/geonwprj.github.io/main/userscripts/novel.js
 // @version      0.1
