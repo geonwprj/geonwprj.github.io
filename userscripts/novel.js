@@ -1,27 +1,60 @@
 // ==UserScript==
 // @name         Content Character Replacer for bg3.co
-// @namespace    http://tampermonkey.net/
-// @version      0.2
 // @description  Replace '曰' with '日' in <p> elements
-// @author       You
 // @match        https://www.bg3.co/novel/pagea/*
-// @grant        none
+// @updateURL    https://raw.githubusercontent.com/geonwprj/geonwprj.github.io/main/userscripts/novel.js
+// @version      0.1
 // ==/UserScript==
 
 (function() {
     'use strict';
 
+    // Main function to run the script
+    function main() {
+//        setDebug();
+        logging("init"); // Fixed quotation marks
+        window.addEventListener('load', replaceCharInParagraphs);
+    }
+
+    // Function to log messages
+    function logging(message) {
+try {
+       var logArea = document.getElementById('logArea'); // Fixed missing parentheses
+       var logEntry = document.createElement('div');
+        logEntry.textContent = new Date().toLocaleTimeString() + ': ' + message;
+        logArea.insertBefore(logEntry, logArea.firstChild);
+} catch (e) {
+return;
+}
+    }
+
+    // Function to set up the debug log area
+    function setDebug() {
+        var logArea = document.createElement('div');
+        logArea.id = 'logArea';
+        logArea.style.position = 'fixed';
+        logArea.style.bottom = '0';
+        logArea.style.width = '100%';
+        logArea.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        logArea.style.color = 'white';
+        logArea.style.zIndex = '9999';
+        logArea.style.overflowY = 'scroll';
+        logArea.style.maxHeight = '200px';
+        logArea.style.padding = '10px';
+        logArea.style.boxSizing = 'border-box';
+        logArea.style.fontSize = '12px';
+        document.body.appendChild(logArea);
+    }
+
     // Function to replace characters in <p> elements
     function replaceCharInParagraphs() {
-        // Get all <p> elements on the page
         var paragraphs = document.getElementsByTagName('p');
         for (var i = 0; i < paragraphs.length; i++) {
-            // Replace '曰' with '日' in each paragraph
-            if (i==0) alert(paragraphs[i]);
-            paragraphs[i].textContent = paragraphs[i].textContent.replace(/曰/g, '日').replace(/……+/g, '……');
+            paragraphs[i].textContent = paragraphs[i].textContent.replace(/曰/g, '日');
+            paragraphs[i].textContent = paragraphs[i].textContent.replace(/……+/g, '……').replace(/——+/g, '——');
         }
     }
 
-    // Run the replace function after the page content has loaded
-    window.addEventListener('load', replaceCharInParagraphs);
+  // Run the main function
+    main();
 })();
