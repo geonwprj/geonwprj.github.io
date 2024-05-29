@@ -64,7 +64,6 @@ function getSource(title, index, author, isjson) {
       let mainpre = document.createElement("pre");
       mainpre.innerHTML = JSON.stringify(data, null, 2);
       $("body").append(mainpre);
-    }
       
     } else {
     $("head").append(`<meta property="og:title" content="${chapter} - ${subchapter}">`)
