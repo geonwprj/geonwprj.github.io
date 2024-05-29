@@ -1,6 +1,9 @@
 $(document).ready(async () => {
   const title = getAllUrlParams().book;
   const index = getAllUrlParams().index;
+  const format = getAllUrlParams().format;
+
+  format = format? format: "html";
 
   let author = title.split("-")[1].trim();
   let isready = true
@@ -16,7 +19,7 @@ $(document).ready(async () => {
   if (isready) {
     formatOutput(content);
   } else {
-    getSource(title, index, author);
+    getSource(title, index, author, format=="json");
   }
 })
 
@@ -37,7 +40,7 @@ async function fileExists(path) {
   }
 }
 
-function getSource(title, index, author) {
+function getSource(title, index, author, isjson) {
   let url = "https://www.bg3.co/novel/pagea/";
   url += `${title}_${index}.html`
   const selector = "title,div.content"
@@ -53,6 +56,17 @@ function getSource(title, index, author) {
     chapter = chapterobj[0].trim();
     chapter = chapter.replace(/《/g, "").replace(/》/g, "");
 
+    if (isjson) {
+      
+    let novel = rtn.result["div.content"][0];
+    const novelTxt = splitText(novel);
+      const data = {"title": chapter, "subtitle": subchapter, "index": index, "content": novelTxt};
+      let mainpre = document.createElement("pre");
+      mainpre.innerHTML = JSON.stringify(data, null, 2);
+      $("body").append(mainpre);
+    }
+      
+    } else {
     $("head").append(`<meta property="og:title" content="${chapter} - ${subchapter}">`)
     $("head").append(`<title>${chapter} - ${subchapter}</title>`);
 //      $("#titlediv").append(chapter);
@@ -98,7 +112,7 @@ function getSource(title, index, author) {
     maindiv.append(novel);
 */
     $("body").append(maindiv);  
-
+    }
   }).catch(e => console.error(e));
 
 }
