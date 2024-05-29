@@ -61,7 +61,6 @@ function getSource(title, index, author, isjson) {
       let novel = rtn.result["div.content"][0];
       let novelTxt = splitText(novel);
       let data = {"title": chapter, "subtitle": subchapter, "index": index, "content": novelTxt[0].replace("<p>", "").replace("</p>","").split("<br>")};
-      console.log(data.content.length);
       let mainpre = document.createElement("pre");
       mainpre.innerHTML = JSON.stringify(data, null, 2);
       $("body").append(mainpre);
