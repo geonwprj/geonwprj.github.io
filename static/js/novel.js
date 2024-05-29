@@ -1,7 +1,7 @@
 $(document).ready(async () => {
   const title = getAllUrlParams().book;
   const index = getAllUrlParams().index;
-  const format = getAllUrlParams().format;
+  let format = getAllUrlParams().format;
 
   format = format? format: "html";
 
