@@ -4,9 +4,11 @@ $(document).ready(async () => {
   let mode = getAllUrlParams().mode;
   const search = getAllUrlParams().search;
   let format = getAllUrlParams().format;
+  let page = getAllUrlParams().page;
 
   mode = mode? mode: "content";
   format = format? format: "html";
+  page = page? page: 1;
 
   if (mode == "search") {
     searchNovel(search, format);
@@ -26,7 +28,7 @@ function formatSearchNovelResult(data) {
   return rtn
 }
 
-async function searchNovel(search, format) {
+async function searchNovel(search, format, page) {
   //https://www.ttkan.co/novel/search?q=贅婿
   //https://web.scraper.workers.dev/?
   //url=https%3A%2F%2Fwww.ttkan.co%2Fnovel%2Fsearch%3Fq%3D%25E8%25B4%2585%25E5%25A9%25BF
@@ -37,8 +39,9 @@ async function searchNovel(search, format) {
   const selector = "div>ul>li"
 
   getScrape(url, selector).then(rtn => {
-    if (format=="json") {      
-      let data = {"result": formatSearchNovelResult(rtn.result["div>ul>li"]).slice(0, 10)};
+    if (format=="json") {
+      const pagesize = 10;
+      let data = {"result": formatSearchNovelResult(rtn.result["div>ul>li"]).slice(pagesize * (page-1), pagesize * page)};
       let mainpre = document.createElement("pre");
       mainpre.innerHTML = JSON.stringify(data, null, 2);
       $("body").append(mainpre);
