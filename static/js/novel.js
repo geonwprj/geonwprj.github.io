@@ -38,7 +38,7 @@ async function searchNovel(search, format) {
 
   getScrape(url, selector).then(rtn => {
     if (format=="json") {      
-      let data = {"result": formatSearchNovelResult(rtn.result["div>ul>li"])};
+      let data = {"result": formatSearchNovelResult(rtn.result["div>ul>li"]).slice(0, 10)};
       let mainpre = document.createElement("pre");
       mainpre.innerHTML = JSON.stringify(data, null, 2);
       $("body").append(mainpre);
