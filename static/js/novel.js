@@ -11,7 +11,7 @@ $(document).ready(async () => {
   page = page? page: 1;
 
   if (mode == "search") {
-    searchNovel(search, format);
+    searchNovel(search, format, page);
   } else {
     getContent(title, index, format);
   }
