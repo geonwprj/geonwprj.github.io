@@ -1,10 +1,20 @@
 $(document).ready(async () => {
   const title = getAllUrlParams().book;
   const index = getAllUrlParams().index;
+  let mode = getAllUrlParams().mode;
   let format = getAllUrlParams().format;
 
+  mode = mode? mode: "content";
   format = format? format: "html";
 
+  if (mode == "search") {
+    searchNovel(title, format);
+  } else {
+    getContent(title, index, format);
+  }
+})
+
+async function getContent(title, index, format) {
   let author = title.split("-")[1].trim();
   let isready = true
   let content = []
@@ -21,7 +31,7 @@ $(document).ready(async () => {
   } else {
     getSource(title, index, author, format=="json");
   }
-})
+}
 
 function formatOutput(content) {
   content.map(v => {
