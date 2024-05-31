@@ -2,17 +2,39 @@ $(document).ready(async () => {
   const title = getAllUrlParams().book;
   const index = getAllUrlParams().index;
   let mode = getAllUrlParams().mode;
+  const search = getAllUrlParams().search;
   let format = getAllUrlParams().format;
 
   mode = mode? mode: "content";
   format = format? format: "html";
 
   if (mode == "search") {
-    searchNovel(title, format);
+    searchNovel(search, format);
   } else {
     getContent(title, index, format);
   }
 })
+
+async function searchNovel(search, format) {
+  //https://www.ttkan.co/novel/search?q=贅婿
+  //https://web.scraper.workers.dev/?
+  //url=https%3A%2F%2Fwww.ttkan.co%2Fnovel%2Fsearch%3Fq%3D%25E8%25B4%2585%25E5%25A9%25BF
+  //selector=div+%3E+ul+%3E+li
+  //scrape=text
+  let url = "https://www.ttkan.co/novel/search?q=";
+  url += search
+  const selector = "div>ul>li"
+
+  getScrape(url, selector).then(rtn => {
+    if (format=="json") {
+      let data = {"data": rtn.result["div>ul>li"]};
+      let mainpre = document.createElement("pre");
+      mainpre.innerHTML = JSON.stringify(data, null, 2);
+      $("body").append(mainpre);
+    } else {
+    }
+  })
+}
 
 async function getContent(title, index, format) {
   let author = title.split("-")[1].trim();
