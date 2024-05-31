@@ -15,6 +15,17 @@ $(document).ready(async () => {
   }
 })
 
+function formatSearchNovelResult(data) {
+  let rtn = [];
+  for (let i=0; i < data.length; i+=3) {
+    const title = data[i];
+    const author = data[i+1].replace("作者：", "");
+    const desc = data[i+2].replace("簡介：", "");
+    rtn.push({index: i/3+1,title,author,desc});
+  }
+  return rtn
+}
+
 async function searchNovel(search, format) {
   //https://www.ttkan.co/novel/search?q=贅婿
   //https://web.scraper.workers.dev/?
@@ -26,8 +37,8 @@ async function searchNovel(search, format) {
   const selector = "div>ul>li"
 
   getScrape(url, selector).then(rtn => {
-    if (format=="json") {
-      let data = {"data": rtn.result["div>ul>li"]};
+    if (format=="json") {      
+      let data = {"data": formatSearchNovelResult(rtn.result["div>ul>li"])};
       let mainpre = document.createElement("pre");
       mainpre.innerHTML = JSON.stringify(data, null, 2);
       $("body").append(mainpre);
