@@ -1,0 +1,457 @@
+<html><head><base href="https://techdataarchitect.com/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Data Architect - Professional Profile</title>
+<style>
+    :root {
+        --bg-color: #f4f4f4;
+        --text-color: #333;
+        --header-bg: #2c3e50;
+        --header-text: #ecf0f1;
+        --nav-bg: #34495e;
+        --section-bg: #fff;
+        --section-shadow: rgba(0,0,0,0.1);
+        --skill-bg: #3498db;
+        --skill-text: #fff;
+        --timeline-bg: #3498db;
+        --footer-bg: #2c3e50;
+        --footer-text: #ecf0f1;
+        --popup-bg: rgba(0, 0, 0, 0.5);
+        --popup-content-bg: #fff;
+        --popup-content-text: #333;
+    }
+
+    .dark-mode {
+        --bg-color: #1a1a1a;
+        --text-color: #f4f4f4;
+        --header-bg: #1c2833;
+        --header-text: #ecf0f1;
+        --nav-bg: #2c3e50;
+        --section-bg: #2c3e50;
+        --section-shadow: rgba(255,255,255,0.1);
+        --skill-bg: #2980b9;
+        --skill-text: #ecf0f1;
+        --timeline-bg: #2980b9;
+        --footer-bg: #1c2833;
+        --footer-text: #ecf0f1;
+        --popup-bg: rgba(0, 0, 0, 0.8);
+        --popup-content-bg: #2c3e50;
+        --popup-content-text: #ecf0f1;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        flex: 1;
+    }
+    header {
+        background-color: var(--header-bg);
+        color: var(--header-text);
+        text-align: center;
+        padding: 1em 0;
+    }
+    h1 {
+        margin: 0;
+    }
+    nav {
+        background-color: var(--nav-bg);
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+    }
+    nav ul li {
+        margin: 0 15px;
+    }
+    nav ul li a {
+        color: var(--header-text);
+        text-decoration: none;
+        font-weight: bold;
+    }
+    section {
+        background-color: var(--section-bg);
+        margin: 20px 0;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px var(--section-shadow);
+    }
+    h2 {
+        color: var(--text-color);
+        border-bottom: 2px solid var(--skill-bg);
+        padding-bottom: 10px;
+    }
+    .skill-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .skill {
+        background-color: var(--skill-bg);
+        color: var(--skill-text);
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.9em;
+    }
+    .timeline {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .timeline::after {
+        content: '';
+        position: absolute;
+        width: 6px;
+        background-color: var(--timeline-bg);
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -3px;
+    }
+    .timeline-item {
+        padding: 10px 40px;
+        position: relative;
+        background-color: inherit;
+        width: 50%;
+    }
+    .timeline-item::after {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        right: -17px;
+        background-color: var(--section-bg);
+        border: 4px solid var(--timeline-bg);
+        top: 15px;
+        border-radius: 50%;
+        z-index: 1;
+    }
+    .left {
+        left: 0;
+    }
+    .right {
+        left: 50%;
+    }
+    .left::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        right: 30px;
+        border: medium solid var(--timeline-bg);
+        border-width: 10px 0 10px 10px;
+        border-color: transparent transparent transparent var(--timeline-bg);
+    }
+    .right::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        left: 30px;
+        border: medium solid var(--timeline-bg);
+        border-width: 10px 10px 10px 0;
+        border-color: transparent var(--timeline-bg) transparent transparent;
+    }
+    .right::after {
+        left: -16px;
+    }
+    .content {
+        padding: 20px 30px;
+        background-color: var(--section-bg);
+        position: relative;
+        border-radius: 6px;
+    }
+    .button {
+        background-color: var(--skill-bg);
+        color: var(--skill-text);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .button:hover {
+        background-color: #2980b9;
+    }
+    #login-button {
+        margin-right: 10px;
+    }
+    #dark-mode-toggle {
+        background-color: transparent;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 10px;
+    }
+    footer {
+        background-color: var(--footer-bg);
+        color: var(--footer-text);
+        text-align: center;
+        padding: 1em 0;
+        margin-top: auto;
+    }
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--popup-bg);
+    }
+    .popup-content {
+        background-color: var(--popup-content-bg);
+        color: var(--popup-content-text);
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 5px;
+        width: 300px;
+        text-align: center;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .login-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+        padding: 10px;
+        width: 100%;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .login-button svg {
+        margin-right: 10px;
+        width: 24px;
+        height: 24px;
+    }
+    .apple-login { background-color: #000; color: #fff; }
+    .github-login { background-color: #24292e; color: #fff; }
+    .microsoft-login { background-color: #2f2f2f; color: #fff; }
+    .google-login { background-color: #4285f4; color: #fff; }
+</style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Tech Data Architect</h1>
+            <p>Data Architecture | Data Analysis | Project Management</p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div>
+            <button id="login-button" class="button">Login</button>
+            <button id="dark-mode-toggle" title="Toggle Dark Mode">◯</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section id="about">
+            <h2>About Me</h2>
+            <p>As an experienced Data Architect and Analyst with a strong background in System Integration, I bring a unique blend of technical expertise and business acumen to every project. With 8 years of experience in the field, I specialize in designing robust data architectures and conducting in-depth analyses, particularly in the retail and insurance domains.</p>
+            <p>My strength lies in my ability to bridge the gap between technical teams and business stakeholders, ensuring that data solutions align with organizational goals and drive tangible results.</p>
+        </section>
+
+        <section id="skills">
+            <h2>Skills & Expertise</h2>
+            <div class="skill-container">
+                <span class="skill">Data Architecture</span>
+                <span class="skill">Data Analysis</span>
+                <span class="skill">System Integration</span>
+                <span class="skill">Project Management</span>
+                <span class="skill">Retail Domain</span>
+                <span class="skill">Insurance Domain</span>
+                <span class="skill">Business Intelligence</span>
+                <span class="skill">Data Modeling</span>
+                <span class="skill">ETL Processes</span>
+                <span class="skill">SQL</span>
+                <span class="skill">Big Data Technologies</span>
+                <span class="skill">Data Warehousing</span>
+                <span class="skill">Team Collaboration</span>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>Professional Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="content">
+                        <h3>Senior Data Architect</h3>
+                        <p>Led data architecture design for major retail and insurance clients, optimizing data flows and improving decision-making processes.</p>
+                        <p><em>2018 - Present</em></p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="content">
+                        <h3>Data Analyst & System Integrator</h3>
+                        <p>Conducted complex data analyses and seamlessly integrated systems across multiple platforms, enhancing operational efficiency.</p>
+                        <p><em>2015 - 2018</em></p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="content">
+                        <h3>Junior System Integrator</h3>
+                        <p>Collaborated with cross-functional teams to implement data solutions and ensure smooth system integrations.</p>
+                        <p><em>2013 - 2015</em></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>Key Projects</h2>
+            <ul>
+                <li>Designed and implemented a centralized data warehouse for a major retail chain, resulting in a 30% improvement in inventory management.</li>
+                <li>Led the integration of legacy systems with modern cloud-based solutions for a leading insurance provider, streamlining claims processing by 40%.</li>
+                <li>Developed a real-time analytics dashboard for a multi-national corporation, enabling data-driven decision making across departments.</li>
+            </ul>
+        </section>
+
+        <section id="contact">
+            <h2>Get in Touch</h2>
+            <p>I'm always open to discussing new opportunities and challenges in the world of data architecture and analysis. Feel free to reach out!</p>
+            <p>Email: <a href="mailto:contact@techdataarchitect.com">contact@techdataarchitect.com</a></p>
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/techdataarchitect" target="_blank">linkedin.com/in/techdataarchitect</a></p>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Tech Data Architect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="login-popup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <button class="login-button apple-login">
+                <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="white" d="M747.4 535.7c-.4-68.2 30.5-119.6 92.9-157.5-34.9-50-87.7-77.5-157.3-82.8-65.9-5.2-138 38.4-164.4 38.4-27.9 0-91.7-36.6-150.8-35.6-77.9 1.1-149.6 45.7-189.6 117.1-82 144.4-21.1 358.2 57.9 474.8 39.4 56.8 86.1 120.4 147.1 118.1 59.5-2.4 81.7-38.4 153.3-38.4 71.8 0 91.7 38.4 154.3 37.1 63.8-1.2 104.2-57.8 142.6-114.9 44.4-64.7 62.7-128 63.7-131.2-.7-.2-122.2-47.1-123.4-186.6zm-132.5-346.8c32.4-39.4 54.3-94.5 48.3-149.6-46.7 2.9-102.9 31.4-136 70.2-29.8 34.4-55.8 90.3-48.5 143.2 51.9 4 105.2-26.3 136.2-63.8z"/>
+                </svg>
+                Login with Apple
+            </button>
+            <button class="login-button github-login">
+                <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="white" d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9a127.5 127.5 0 0 1 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"/>
+                </svg>
+                Login with GitHub
+            </button>
+            <button class="login-button microsoft-login">
+                <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="white" d="M484.3 549.5h-84.8V460h234.8v89.5H549.5v275h-65.2zm278-171.8h66.5v275h64.5V460H762.3z"/>
+                </svg>
+                Login with Microsoft
+            </button>
+            <button class="login-button google-login">
+                <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="white" d="M881 442.4H519.7v148.5h206.4c-8.9 48-35.9 88.6-76.6 115.8-34.4 23-78.3 36.6-129.9 36.6-99.9 0-184.4-67.5-214.6-158.2-7.6-23-12-47.6-12-72.9s4.4-49.9 12-72.9c30.3-90.6 114.8-158.1 214.7-158.1 56.3 0 106.8 19.4 146.6 57.4l110-110.1c-66.5-62-153.2-100-256.6-100-149.9 0-279.6 86-342.7 211.4-26 51.8-40.8 110.4-40.8 172.4S151 632.8 177 684.6C240.1 810 369.8 896 519.7 896c103.6 0 190.4-34.4 253.8-93 72.5-66.8 114.4-165.2 114.4-282.1 0-27.2-2.4-53.3-6.9-78.5z"/>
+                </svg>
+                Login with Google
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    targetElement.scrollIntoView({behavior: 'smooth'});
+                });
+            });
+
+            const loginButton = document.getElementById('login-button');
+            const loginPopup = document.getElementById('login-popup');
+            const closeButton = document.querySelector('.close');
+
+            loginButton.addEventListener('click', function() {
+                loginPopup.style.display = 'block';
+            });
+
+            closeButton.addEventListener('click', function() {
+                loginPopup.style.display = 'none';
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target == loginPopup) {
+                    loginPopup.style.display = 'none';
+                }
+            });
+
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    this.textContent = '◉';
+                    this.title = 'Toggle Light Mode';
+                } else {
+                    this.textContent = '◯';
+                    this.title = 'Toggle Dark Mode';
+                }
+            });
+
+            // Update copyright year automatically
+            const currentYear = new Date().getFullYear();
+            document.querySelector('footer p').innerHTML = `&copy; ${currentYear} Tech Data Architect. All rights reserved.`;
+
+            // Login button functionality
+            const loginButtons = document.querySelectorAll('.login-button');
+            loginButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    alert(`Login with ${this.textContent.trim()} would be implemented here.`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
