@@ -12,6 +12,10 @@ function capitalizeWords(str) {
 
 async function getZhQuery(query) {
     const baseUrl = "https://en.wikipedia.org/wiki/";
+    console.log(query);
+    console.log(query.replace(' ', '_'));
+    console.log(capitalizeWords(query))
+    console.log(capitalizeWords(query.replace(' ', '_')))
     const searchUrl = baseUrl + capitalizeWords(query).replace(' ', '_');
 
     try {
