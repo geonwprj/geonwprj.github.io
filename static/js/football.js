@@ -2,7 +2,7 @@ $(document).ready(async () => {
     const name = getAllUrlParams().q;
     const zh_name = await getZhQuery(name);
     console.log(zh_name);
-    $('body').text = name + ' ' + zh_name;
+    $('body').innerHTML = name + '<br>' + zh_name;
 })
 
 function capitalizeWords(str) {
@@ -19,7 +19,7 @@ async function getZhQuery(query) {
     const searchUrl = baseUrl + capitalizeWords(query).replace(' ', '_');
     let rtn = await getScrape(searchUrl, 'a[lang="zh"]', 'href')
     console.log(rtn);
-    return rtn.result;
+    return rtn.result ? rtn.result.replace('https://zh.wikipedia.org/wiki/', '') : capitalizeWords(query).replace(' ', '_');
 
     // &selector=a%5Blang%3D"zh"%5D&scrape=attr&spaced=true&attr=href&pretty=true
     // getScrape(searchUrl, 'a[lang="zh"]', 'href').then(rtn => {
