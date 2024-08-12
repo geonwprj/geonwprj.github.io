@@ -14,6 +14,42 @@ function capitalizeWords(str) {
     });
 }
 
+const wikipediaUrls = {
+    'Hong_Kong': 'https://zh.wikipedia.org/zh-hk/',
+    'Taiwan': 'https://zh.wikipedia.org/zh-tw/',
+    'China': 'https://zh.wikipedia.org/zh-cn/'
+};
+
+// Function to scrape Wikipedia for Chinese names based on region
+async function scrapeWikipedia(name, region) {
+    // Prepare Wikipedia search URL
+    const zhName = await getZhQuery(name);
+    const searchUrl = wikipediaUrls[region] + zhName;
+
+    try {
+        // Send a GET request to the Wikipedia page
+        const response = await fetch(searchUrl);
+        const text = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+
+        // Try to find the Chinese names in the infobox, if it exists
+        const infobox = doc.querySelector('table.infobox');
+        if (infobox) {
+            const zhRow = infobox.querySelector('caption.fn');
+            if (zhRow) {
+                const chineseName = zhRow.innerHTML.split('<br>')[0].trim();
+                return chineseName;
+            }
+        } else {
+            console.log('no infobox');
+        }
+    } catch (error) {
+        console.error('Error fetching Wikipedia page:', error);
+    }
+    return null;
+}
+
 async function getZhQuery(query) {
     const baseUrl = "https://en.wikipedia.org/wiki/";
     console.log(query);
@@ -23,31 +59,4 @@ async function getZhQuery(query) {
     console.log(rtn);
     return rtn.result ? rtn.result.replace('https://zh.wikipedia.org/wiki/', '') : capitalizeWords(query).replace(' ', '_');
 
-    // &selector=a%5Blang%3D"zh"%5D&scrape=attr&spaced=true&attr=href&pretty=true
-    // getScrape(searchUrl, 'a[lang="zh"]', 'href').then(rtn => {
-    //     if (format=="json") {
-    //       const pagesize = 10;
-    //       let data = rtn.result;
-    //       let mainpre = document.createElement("pre");
-    //       mainpre.innerHTML = data;
-    //       $("body").append(mainpre);
-    //       return 
-    //     } else {
-    //     }
-    //   })
-
-    // try {
-    //     const response = await fetch(searchUrl, { mode: 'no-cors' });
-    //     const text = await response.text();
-    //     const parser = new DOMParser();
-    //     const doc = parser.parseFromString(text, 'text/html');
-    //     console.log(text);
-    //     const link = doc.querySelector('a[hreflang="zh"]');
-    //     console.log(link);
-    //     return link ? link.href.replace('https://zh.wikipedia.org/wiki/', '') : capitalizeWords(query).replace(' ', '_');
-    // } catch (error) {
-    //     console.log('error');
-    //     console.log(error);
-    //     return query.replace(' ', '_');
-    // }
 }
