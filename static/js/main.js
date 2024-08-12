@@ -67,13 +67,16 @@ function getAllUrlParams(url) {
     return obj;
   }
 
-function getScrape(source, selector) {
+function getScrape(source, selector, attr) {
   let url = "https://web.scraper.workers.dev/?scrape=text";
   if (selector||"" != "") {
     url += "&selector=" + encodeURIComponent(selector);
   }
   if (source||"" != "") {
     url += "&url=" + encodeURIComponent(source);
+  }
+  if (attr||"" != "") {
+    url += "&attr=" + attr;
   }
   return fetch(url).then((r) => {
     if (r.status===200) {

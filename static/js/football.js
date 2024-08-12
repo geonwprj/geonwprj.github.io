@@ -17,19 +17,35 @@ async function getZhQuery(query) {
     console.log(query);
     console.log(capitalizeWords(query).replace(' ', '_'))
     const searchUrl = baseUrl + capitalizeWords(query).replace(' ', '_');
+    let rtn = await getScrape(searchUrl, 'a[lang="zh"]', 'href')
+    console.log(rtn);
+    return rtn.result;
 
-    try {
-        const response = await fetch(searchUrl, { mode: 'no-cors' });
-        const text = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
-        console.log(text);
-        const link = doc.querySelector('a[hreflang="zh"]');
-        console.log(link);
-        return link ? link.href.replace('https://zh.wikipedia.org/wiki/', '') : capitalizeWords(query).replace(' ', '_');
-    } catch (error) {
-        console.log('error');
-        console.log(error);
-        return query.replace(' ', '_');
-    }
+    // &selector=a%5Blang%3D"zh"%5D&scrape=attr&spaced=true&attr=href&pretty=true
+    // getScrape(searchUrl, 'a[lang="zh"]', 'href').then(rtn => {
+    //     if (format=="json") {
+    //       const pagesize = 10;
+    //       let data = rtn.result;
+    //       let mainpre = document.createElement("pre");
+    //       mainpre.innerHTML = data;
+    //       $("body").append(mainpre);
+    //       return 
+    //     } else {
+    //     }
+    //   })
+
+    // try {
+    //     const response = await fetch(searchUrl, { mode: 'no-cors' });
+    //     const text = await response.text();
+    //     const parser = new DOMParser();
+    //     const doc = parser.parseFromString(text, 'text/html');
+    //     console.log(text);
+    //     const link = doc.querySelector('a[hreflang="zh"]');
+    //     console.log(link);
+    //     return link ? link.href.replace('https://zh.wikipedia.org/wiki/', '') : capitalizeWords(query).replace(' ', '_');
+    // } catch (error) {
+    //     console.log('error');
+    //     console.log(error);
+    //     return query.replace(' ', '_');
+    // }
 }
