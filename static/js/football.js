@@ -2,7 +2,9 @@ $(document).ready(async () => {
     const name = getAllUrlParams().q;
     const zh_name = await getZhQuery(name);
     console.log(zh_name);
-    $('body').innerHTML = name + '<br>' + zh_name;
+    let mainpre = document.createElement("pre");
+    mainpre.innerHTML = name + '<br>' + zh_name;
+    $("body").append(mainpre);    
 })
 
 function capitalizeWords(str) {
