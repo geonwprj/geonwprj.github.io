@@ -23,7 +23,7 @@ async function getZhQuery(query) {
         const text = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
-        console.log(doc);
+        console.log(text);
         const link = doc.querySelector('a[hreflang="zh"]');
         console.log(link);
         return link ? link.href.replace('https://zh.wikipedia.org/wiki/', '') : capitalizeWords(query).replace(' ', '_');
