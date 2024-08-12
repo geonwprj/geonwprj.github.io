@@ -5,6 +5,7 @@ $(document).ready(async () => {
 })
 
 function capitalizeWords(str) {
+    str = str.replace('%20', ' ');
     return str.replace(/(?:^|\s|,|\.)\S/g, function(match) {
         return match.toUpperCase();
     });
