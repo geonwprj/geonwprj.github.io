@@ -4,12 +4,13 @@ $(document).ready(async () => {
     $('body').text = name + ' ' + zh_name;
 })
 
+
 async function getZhQuery(query) {
     const baseUrl = "https://en.wikipedia.org/wiki/";
     const searchUrl = baseUrl + query.replace(' ', '_');
 
     try {
-        const response = await fetch(searchUrl);
+        const response = await fetch(searchUrl, { mode: 'no-cors' });
         const text = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
