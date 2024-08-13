@@ -1,6 +1,7 @@
 async function fetchAndDisplayContent(url) {
     try {
-        let response = await fetch(url);
+        let proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        let response = await fetch(proxyUrl + url);
         if (response.ok) {
             let data = await response.text();
             document.getElementById('content').innerHTML = data;
