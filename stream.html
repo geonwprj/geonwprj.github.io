@@ -3,10 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fetch and Display Content</title>
-    <script type="text/javascript" src="./static/js/stream.js"></script>
+    <title>Data Extractor</title>
 </head>
 <body>
-    <div id="content"></div>
+    <h1>Data Extractor from Zhibo1</h1>
+    <button id="fetchData">Fetch Data</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('fetchData').addEventListener('click', async () => {
+            try {
+                const response = await fetch('https://www.zhibo1.cc/list_Soccer_1.html');
+                const text = await response.text();
+                
+                // Create a new DOM parser
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                
+                // Extract the data you need; adjust the selector as necessary
+                const dataElements = doc.querySelectorAll('.your-data-selector'); // Change this to the actual selector
+                let resultHtml = '';
+
+                dataElements.forEach(element => {
+                    resultHtml += `<p>${element.textContent}</p>`; // Adjust this based on what you want to extract
+                });
+
+                document.getElementById('result').innerHTML = resultHtml;
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    </script>
 </body>
 </html>
