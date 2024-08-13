@@ -53,7 +53,7 @@ async function scrapeWikipedia(name, region) {
     try {
         return getChinesePart(rtn.result[selector][0]);
     } catch {
-        return name
+        return capitalizeWords(name)
     }
 }
 
