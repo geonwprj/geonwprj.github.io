@@ -27,7 +27,6 @@ async function scrapeWikipedia(name, region) {
     const zhName = await getZhQuery(name);
     const searchUrl = wikipediaUrls[region] + zhName;
     selector = 'caption.fn'
-    const searchUrl = baseUrl + capitalizeWords(query).replace(' ', '_');
     let rtn = await getScrape(searchUrl, selector)
     console.log(rtn);
     try {
