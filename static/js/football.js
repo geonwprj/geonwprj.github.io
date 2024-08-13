@@ -1,12 +1,13 @@
 $(document).ready(async () => {
     const name = getAllUrlParams().q;
-    const lang = getAllUrlParams().l;
+    let lang = getAllUrlParams().l;
     lang = convert_lang(lang);
+    console.log(lang)
     // const zh_name = await getZhQuery(name);
     // console.log(zh_name);
     let mainpre = document.createElement("pre");
     const zh_name = await scrapeWikipedia(name, 'Hong_Kong')
-    mainpre.innerHTML = name + '<br>' + zh_name;
+    mainpre.innerHTML = '{"result":"' + zh_name + '", "lang":"'+lang+'"}';
     $("body").append(mainpre);    
 })
 
