@@ -1,5 +1,7 @@
 $(document).ready(async () => {
     const name = getAllUrlParams().q;
+    const lang = getAllUrlParams().l;
+    lang = convert_lang(lang);
     // const zh_name = await getZhQuery(name);
     // console.log(zh_name);
     let mainpre = document.createElement("pre");
@@ -7,6 +9,18 @@ $(document).ready(async () => {
     mainpre.innerHTML = name + '<br>' + zh_name;
     $("body").append(mainpre);    
 })
+
+function convert_lang(lang) {
+    lang = lang ? lang : 'hk';
+    lang = lang.replace('zh-', '').replace(/ /g, '').replace(/_/g, '').toLowerCase();
+    
+    if (['tw', 'taiwan'].includes(lang)) {
+        return 'Taiwan';
+    } else if (['cn', 'china', 'prc', 'sc'].includes(lang)) {
+        return 'China';
+    }
+    return 'Hong_Kong';
+}
 
 function capitalizeWords(str) {
     str = str.replace('%20', ' ');
