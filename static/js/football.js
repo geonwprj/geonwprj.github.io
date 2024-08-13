@@ -22,8 +22,8 @@ const wikipediaUrls = {
 };
 
 function getChinesePart(text) {
-    const match = text.match(/(.*)[A-Za-z]+/g);
-    // const match = text.match(/[\u4e00-\u9fa5·]+/g);
+    // const match = text.match(/(.*)[A-Za-z]+/g);
+    const match = text.match(/[\u4e00-\u9fa5·]+/g);
     return match ? match.join('') : '';
 }
 
