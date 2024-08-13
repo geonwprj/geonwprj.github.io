@@ -22,8 +22,8 @@ const wikipediaUrls = {
 };
 
 function getChinesePart(text) {
-    const match = text.match(/[\u4e00-\u9fa5]+/);
-    return match ? match[0] : '';
+    const match = text.match(/[\u4e00-\u9fa5·]+/g);
+    return match ? match.join('') : '';
 }
 
 // Function to scrape Wikipedia for Chinese names based on region
