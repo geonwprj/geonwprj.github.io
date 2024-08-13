@@ -21,6 +21,11 @@ const wikipediaUrls = {
     'China': 'https://zh.wikipedia.org/zh-cn/'
 };
 
+function getChinesePart(text) {
+    const match = text.match(/[\u4e00-\u9fa5]+/);
+    return match ? match[0] : '';
+}
+
 // Function to scrape Wikipedia for Chinese names based on region
 async function scrapeWikipedia(name, region) {
     // Prepare Wikipedia search URL
@@ -30,7 +35,7 @@ async function scrapeWikipedia(name, region) {
     let rtn = await getScrape(searchUrl, selector)
     console.log(rtn);
     try {
-        return rtn.result[selector][0];
+        return getChinesePart(rtn.result[selector][0]);
     } catch {
         return name
     }
