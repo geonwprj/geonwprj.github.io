@@ -16,11 +16,11 @@ function convert_lang(lang) {
     lang = lang.replace('zh-', '').replace(/ /g, '').replace(/_/g, '').toLowerCase();
     
     if (['tw', 'taiwan'].includes(lang)) {
-        return 'Taiwan';
+        return 'tw';
     } else if (['cn', 'china', 'prc', 'sc'].includes(lang)) {
-        return 'China';
+        return 'cn';
     }
-    return 'Hong_Kong';
+    return 'hk';
 }
 
 function capitalizeWords(str) {
@@ -31,9 +31,9 @@ function capitalizeWords(str) {
 }
 
 const wikipediaUrls = {
-    'Hong_Kong': 'https://zh.wikipedia.org/zh-hk/',
-    'Taiwan': 'https://zh.wikipedia.org/zh-tw/',
-    'China': 'https://zh.wikipedia.org/zh-cn/'
+    'hk': 'https://zh.wikipedia.org/zh-hk/',
+    'tw': 'https://zh.wikipedia.org/zh-tw/',
+    'cn': 'https://zh.wikipedia.org/zh-cn/'
 };
 
 function getChinesePart(text) {
