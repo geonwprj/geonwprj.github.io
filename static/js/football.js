@@ -6,7 +6,7 @@ $(document).ready(async () => {
     // const zh_name = await getZhQuery(name);
     // console.log(zh_name);
     let mainpre = document.createElement("pre");
-    const zh_name = await scrapeWikipedia(name, 'Hong_Kong')
+    const zh_name = await scrapeWikipedia(name, lang)
     mainpre.innerHTML = '{"result":"' + zh_name + '", "lang":"'+lang+'"}';
     $("body").append(mainpre);    
 })
