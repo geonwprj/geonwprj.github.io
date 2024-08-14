@@ -1,3 +1,8 @@
+function getQueryParam(name) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(name);
+}
+
 function getAllUrlParams(url) {
 
 //    url = (url||window.location.search.slice(1)).replace(/\\u0026/g, "&");
