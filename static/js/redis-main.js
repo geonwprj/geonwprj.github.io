@@ -2,6 +2,56 @@
         let allRecords = [];
         let profiles = [];
         let currentMode = 'insert';
+// Create a Redis client
+
+// Function to connect to the Redis server
+function connectRedis(host, port) {
+    client = redis.createClient(port, host);
+    
+    client.on('connect', function() {
+        console.log('Connected to Redis server');
+    });
+
+    client.on('error', function(err) {
+        console.error('Redis connection error: ' + err);
+    });
+}
+
+// Function to disconnect from the Redis server
+function disconnectRedis() {
+    if (client) {
+        client.quit(function(err) {
+            if (err) {
+                console.error('Error disconnecting from Redis: ' + err);
+            } else {
+                console.log('Disconnected from Redis server');
+            }
+        });
+    }
+}
+
+// Function to add or update a record in Redis
+function setRecord(key, value) {
+    client.set(key, value, function(err, reply) {
+        if (err) {
+            console.error('Error setting record: ' + err);
+        } else {
+            console.log('Record set: ' + reply);
+        }
+    });
+}
+
+// Function to delete a record from Redis
+function deleteRecord(key) {
+    client.del(key, function(err, reply) {
+        if (err) {
+            console.error('Error deleting record: ' + err);
+        } else {
+            console.log('Record deleted: ' + reply);
+        }
+    });
+}
+
 
         function saveConnection() {
             const profileName = document.getElementById('profileName').value;
