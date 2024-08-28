@@ -1,0 +1,380 @@
+<html><head><base href="https://redis-webui.example.com/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redis WebUI</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redis/3.1.2/redis.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #cc0000;
+            text-align: center;
+        }
+        .connection-form, .record-list, .record-form {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #cc0000;
+        }
+        input[type="text"], input[type="password"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cc0000;
+            border-radius: 3px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #cc0000;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #990000;
+        }
+        .record-item {
+            border-bottom: 1px solid #cc0000;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .record-item:last-child {
+            border-bottom: none;
+        }
+        .record-checkbox {
+            margin-right: 10px;
+        }
+        .record-content {
+            flex-grow: 1;
+            cursor: pointer;
+        }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            width: 100%;
+        }
+        .highlight {
+            background-color: #ffff99;
+        }
+        .profile-list {
+            margin-top: 20px;
+        }
+        .profile-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+        .profile-name {
+            cursor: pointer;
+        }
+        .delete-profile {
+            color: #cc0000;
+            cursor: pointer;
+        }
+        .record-form {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Redis WebUI</h1>
+        <div id="connectionForm" class="connection-form">
+            <div class="form-group">
+                <label for="profileName">Profile Name:</label>
+                <input type="text" id="profileName" placeholder="My Redis Profile">
+            </div>
+            <div class="form-group">
+                <label for="host">Host:</label>
+                <input type="text" id="host" placeholder="localhost">
+            </div>
+            <div class="form-group">
+                <label for="port">Port:</label>
+                <input type="text" id="port" placeholder="6379">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password">
+            </div>
+            <div class="button-group">
+                <button onclick="saveConnection()">Save</button>
+                <button onclick="testConnection()">Test Connection</button>
+                <button onclick="connect()">Connect</button>
+                <button onclick="cancel()">Cancel</button>
+            </div>
+            <div class="profile-list" id="profileList"></div>
+        </div>
+        <div id="recordList" class="record-list" style="display: none;">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search records..." oninput="searchRecords()">
+            </div>
+            <div id="records"></div>
+            <div class="button-group">
+                <button onclick="showInsertForm()">Insert</button>
+                <button onclick="deleteSelectedRecords()">Delete Selected</button>
+            </div>
+        </div>
+        <div id="recordForm" class="record-form">
+            <h2 id="formTitle">Insert/Update Record</h2>
+            <div class="form-group">
+                <label for="recordKey">Key:</label>
+                <input type="text" id="recordKey">
+            </div>
+            <div class="form-group">
+                <label for="recordValue">Value:</label>
+                <textarea id="recordValue" rows="4"></textarea>
+            </div>
+            <div class="button-group">
+                <button onclick="saveRecord()">Save</button>
+                <button onclick="cancelRecordForm()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let client;
+        let allRecords = [];
+        let profiles = [];
+        let currentMode = 'insert';
+
+        function saveConnection() {
+            const profileName = document.getElementById('profileName').value;
+            const host = document.getElementById('host').value;
+            const port = document.getElementById('port').value;
+            const password = document.getElementById('password').value;
+            
+            const newProfile = { profileName, host, port, password };
+            profiles.push(newProfile);
+            localStorage.setItem('redisProfiles', JSON.stringify(profiles));
+            alert('Profile saved!');
+            displayProfiles();
+            clearForm();
+        }
+
+        function clearForm() {
+            document.getElementById('profileName').value = '';
+            document.getElementById('host').value = '';
+            document.getElementById('port').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function displayProfiles() {
+            const profileList = document.getElementById('profileList');
+            profileList.innerHTML = '<h3>Saved Profiles:</h3>';
+            profiles.forEach((profile, index) => {
+                const profileItem = document.createElement('div');
+                profileItem.className = 'profile-item';
+                profileItem.innerHTML = `
+                    <span class="profile-name" onclick="loadProfile(${index})">${profile.profileName}</span>
+                    <i class="fas fa-trash delete-profile" onclick="deleteProfile(${index})"></i>
+                `;
+                profileList.appendChild(profileItem);
+            });
+        }
+
+        function loadProfile(index) {
+            const profile = profiles[index];
+            document.getElementById('profileName').value = profile.profileName;
+            document.getElementById('host').value = profile.host;
+            document.getElementById('port').value = profile.port;
+            document.getElementById('password').value = profile.password;
+        }
+
+        function deleteProfile(index) {
+            if (confirm('Are you sure you want to delete this profile?')) {
+                profiles.splice(index, 1);
+                localStorage.setItem('redisProfiles', JSON.stringify(profiles));
+                displayProfiles();
+            }
+        }
+
+        function testConnection() {
+            const host = document.getElementById('host').value;
+            const port = document.getElementById('port').value;
+            const password = document.getElementById('password').value;
+
+            // In a real-world scenario, you'd want to use a server-side API to test the connection
+            // For this example, we'll just simulate a successful connection
+            setTimeout(() => {
+                alert('Connection test successful!');
+            }, 1000);
+        }
+
+        function connect() {
+            const host = document.getElementById('host').value;
+            const port = document.getElementById('port').value;
+            const password = document.getElementById('password').value;
+
+            // In a real-world scenario, you'd want to use a server-side API to establish the connection
+            // For this example, we'll just simulate a successful connection
+            setTimeout(() => {
+                document.getElementById('connectionForm').style.display = 'none';
+                document.getElementById('recordList').style.display = 'block';
+                loadRecords();
+            }, 1000);
+        }
+
+        function cancel() {
+            clearForm();
+        }
+
+        function loadRecords() {
+            // Simulated records
+            allRecords = [
+                { key: 'user:1', value: '{"name": "John Doe", "email": "john@example.com"}' },
+                { key: 'user:2', value: '{"name": "Jane Smith", "email": "jane@example.com"}' },
+                { key: 'product:1', value: '{"name": "Red Widget", "price": 9.99}' },
+                { key: 'product:2', value: '{"name": "Blue Gadget", "price": 14.99}' },
+                { key: 'order:1', value: '{"user": "user:1", "product": "product:1", "quantity": 2}' }
+            ];
+
+            displayRecords(allRecords);
+        }
+
+        function displayRecords(records) {
+            const recordsContainer = document.getElementById('records');
+            recordsContainer.innerHTML = '';
+
+            records.forEach(record => {
+                const recordElement = document.createElement('div');
+                recordElement.className = 'record-item';
+                recordElement.innerHTML = `
+                    <input type="checkbox" class="record-checkbox" data-key="${record.key}">
+                    <div class="record-content" onclick="showUpdateForm('${record.key}')">
+                        <strong>${record.key}:</strong> ${record.value}
+                    </div>
+                `;
+                recordsContainer.appendChild(recordElement);
+            });
+        }
+
+        function searchRecords() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                displayRecords(allRecords);
+                return;
+            }
+
+            const filteredRecords = allRecords.filter(record => 
+                record.key.toLowerCase().includes(searchTerm) || 
+                record.value.toLowerCase().includes(searchTerm)
+            );
+
+            displayRecords(filteredRecords);
+
+            // Highlight the search term
+            const recordItems = document.querySelectorAll('.record-content');
+            recordItems.forEach(item => {
+                const regex = new RegExp(searchTerm, 'gi');
+                item.innerHTML = item.innerHTML.replace(regex, match => `<span class="highlight">${match}</span>`);
+            });
+        }
+
+        function showInsertForm() {
+            currentMode = 'insert';
+            document.getElementById('formTitle').textContent = 'Insert Record';
+            document.getElementById('recordKey').value = '';
+            document.getElementById('recordValue').value = '';
+            document.getElementById('recordForm').style.display = 'block';
+        }
+
+        function showUpdateForm(key) {
+            currentMode = 'update';
+            document.getElementById('formTitle').textContent = 'Update Record';
+            const record = allRecords.find(r => r.key === key);
+            document.getElementById('recordKey').value = record.key;
+            document.getElementById('recordValue').value = record.value;
+            document.getElementById('recordForm').style.display = 'block';
+        }
+
+        function saveRecord() {
+            const key = document.getElementById('recordKey').value;
+            const value = document.getElementById('recordValue').value;
+
+            if (key && value) {
+                if (currentMode === 'insert') {
+                    // In a real-world scenario, you'd want to use a server-side API to insert the record
+                    allRecords.push({ key, value });
+                    alert(`Record inserted: ${key}`);
+                } else {
+                    // In a real-world scenario, you'd want to use a server-side API to update the record
+                    const index = allRecords.findIndex(record => record.key === key);
+                    if (index !== -1) {
+                        allRecords[index].value = value;
+                        alert(`Record updated: ${key}`);
+                    } else {
+                        alert(`Record with key ${key} not found.`);
+                    }
+                }
+                displayRecords(allRecords);
+                cancelRecordForm();
+            } else {
+                alert('Both key and value are required.');
+            }
+        }
+
+        function cancelRecordForm() {
+            document.getElementById('recordForm').style.display = 'none';
+        }
+
+        function deleteSelectedRecords() {
+            const selectedCheckboxes = document.querySelectorAll('.record-checkbox:checked');
+            const selectedKeys = Array.from(selectedCheckboxes).map(checkbox => checkbox.dataset.key);
+
+            if (selectedKeys.length === 0) {
+                alert('Please select at least one record to delete.');
+                return;
+            }
+
+            if (confirm(`Are you sure you want to delete ${selectedKeys.length} record(s)?`)) {
+                // In a real-world scenario, you'd want to use a server-side API to delete the records
+                allRecords = allRecords.filter(record => !selectedKeys.includes(record.key));
+                displayRecords(allRecords);
+                alert(`${selectedKeys.length} record(s) deleted.`);
+            }
+        }
+
+        // Load saved profiles on page load
+        window.onload = function() {
+            const savedProfiles = localStorage.getItem('redisProfiles');
+            if (savedProfiles) {
+                profiles = JSON.parse(savedProfiles);
+                displayProfiles();
+            }
+        };
+    </script>
+</body>
+</html>
