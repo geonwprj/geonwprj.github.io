@@ -53,7 +53,11 @@
                 displayProfiles();
             }
         }
-
+// Example usage
+// connectRedis('localhost', 6379); // Replace with your Redis server details
+// setRecord('myKey', 'myValue');
+// deleteRecord('myKey');
+// disconnectRedis();
         function testConnection() {
             const host = document.getElementById('host').value;
             const port = document.getElementById('port').value;
@@ -61,23 +65,26 @@
 
             // In a real-world scenario, you'd want to use a server-side API to test the connection
             // For this example, we'll just simulate a successful connection
-            setTimeout(() => {
-                alert('Connection test successful!');
-            }, 1000);
+            connectRedis(host, port);
+            disconnectRedis();
+            // setTimeout(() => {
+            //     alert('Connection test successful!');
+            // }, 1000);
         }
 
         function connect() {
             const host = document.getElementById('host').value;
             const port = document.getElementById('port').value;
             const password = document.getElementById('password').value;
+            connectRedis(host, port);
 
             // In a real-world scenario, you'd want to use a server-side API to establish the connection
             // For this example, we'll just simulate a successful connection
-            setTimeout(() => {
-                document.getElementById('connectionForm').style.display = 'none';
-                document.getElementById('recordList').style.display = 'block';
-                loadRecords();
-            }, 1000);
+            // setTimeout(() => {
+            //     document.getElementById('connectionForm').style.display = 'none';
+            //     document.getElementById('recordList').style.display = 'block';
+            //     loadRecords();
+            // }, 1000);
         }
 
         function cancel() {
