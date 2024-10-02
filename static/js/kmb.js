@@ -1,14 +1,15 @@
+// jQuery document ready function
 $(document).ready(async () => {
     const fromLat = parseFloat(getAllUrlParams().fmlat);
     const fromLong = parseFloat(getAllUrlParams().fmlong);
     const toLat = parseFloat(getAllUrlParams().tolat);
-    const toLong = parseFloat(getAllUrlParams().tolong);
-  
+    const toLong = parseFloat(getAllUrlParams().tolng);
+
     console.log('loc: ', fromLat, fromLong, toLat, toLong);
-    let resultdiv = document.createElement("div");
-    resultdiv.id = 'results'
+    
     findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
         console.log('Found Routes:', routes);
+
         routes.forEach(v => {
             $("#results").append(`
                 <div class="route">
@@ -22,11 +23,10 @@ $(document).ready(async () => {
         if (routes.length === 0) {
             $("#results").append("<p>No routes found.</p>");
         }
-
     });
-  })
+});
 
-  async function fetchData(type) {
+async function fetchData(type) {
     const baseUrl = 'https://data.etabus.gov.hk/v1/transport/kmb/';
     const url = type === 'stops' ? `${baseUrl}stop/` : `${baseUrl}route-stop/`;
 
@@ -52,6 +52,7 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
               Math.sin(dLon / 2) * Math.sin(dLon / 2);
     
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    
     return R * c; // Distance in km
 }
 
@@ -83,7 +84,7 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
     }
 
     const { nearbyFromStops, nearbyToStops } = findNearbyStops(stops, fromLat, fromLong, toLat, toLong);
-    console.log('Found stops:', nearbyFromStops, nearbyToStops);
+
     // Map for quick lookup of stop sequences
     const stopSeqMap = {};
     
@@ -93,7 +94,6 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
         }
         stopSeqMap[route.route].push(route);
     });
-    console.log('Found route:', routeStops);
 
     let results = [];
 
@@ -124,3 +124,4 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
 
     return results.slice(0, 30); // Return at most 30 records
 }
+
