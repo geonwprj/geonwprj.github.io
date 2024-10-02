@@ -131,23 +131,20 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
 
 // jQuery document ready function
 $(document).ready(async () => {
-    const urlParams = new URLSearchParams(window.location.search);
     
-    const fromLat = parseFloat(urlParams.get('fmlat'));
-    const fromLong = parseFloat(urlParams.get('fmlong'));
-    const toLat = parseFloat(urlParams.get('tolat'));
-    const toLong = parseFloat(urlParams.get('tolong'));
+    const fromLat = parseFloat(getAllUrlParams().fmlat);
+    const fromLong = parseFloat(getAllUrlParams().fmlong);
+    const toLat = parseFloat(getAllUrlParams().tolat);
+    const toLong = parseFloat(getAllUrlParams().tolong);
+    const format = getAllUrlParams().format || 'html';
     
-    // Check for format parameter
-    const format = urlParams.get('format') || 'html'; // Default to HTML if not provided
-
     console.log('loc: ', fromLat, fromLong, toLat, toLong);
 
     $('body').append('<div id="results"></div>');
     
     findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
         
-        if (routes.length === 0 || !urlParams.has('fmlat')) { 
+        if (routes.length === 0 || !fromLat) { 
             $("#results").append("<p>No routes found. Usage: kmb.html?fmlat=<latitude>&fmlong=<longitude>&tolat=<latitude>&tolong=<longitude>&format=json</p>");
             return;
         }
