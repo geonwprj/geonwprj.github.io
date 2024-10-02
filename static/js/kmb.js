@@ -64,14 +64,14 @@ function findNearbyStops(stops, fromLat, fromLong, toLat, toLong) {
             const distance = haversineDistance(fromLat, fromLong, stop.lat, stop.long);
             return { ...stop, distance }; // Include distance in the returned object
         })
-        .filter(stop => stop.distance <= 1); // Filter within 1 km
+        .filter(stop => stop.distance <= 0.5); // Filter within 1 km
 
     const nearbyToStops = stops
         .map(stop => {
             const distance = haversineDistance(toLat, toLong, stop.lat, stop.long);
             return { ...stop, distance }; // Include distance in the returned object
         })
-        .filter(stop => stop.distance <= 1); // Filter within 1 km
+        .filter(stop => stop.distance <= 0.5); // Filter within 1 km
 
     return { nearbyFromStops, nearbyToStops };
 }
