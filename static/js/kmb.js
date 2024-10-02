@@ -1,3 +1,17 @@
+$(document).ready(async () => {
+    const fromLat = getAllUrlParams().fmLat;
+    const fromLong = getAllUrlParams().fmLong;
+    const toLat = getAllUrlParams().toLat;
+    const toLong = getAllUrlParams().toLong;
+  
+    findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
+        console.log('Found Routes:', routes);
+        routes.map(v => {
+            $("body").append(`<p>${v}</p>`);
+          });
+    });
+  })
+
 async function fetchData(type) {
     const baseUrl = 'https://data.etabus.gov.hk/v1/transport/kmb/';
     const url = type === 'stops' ? `${baseUrl}stop/` : `${baseUrl}route-stop/`;
