@@ -126,8 +126,6 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
         return distA - distB; // Sort by total distance last
     });
 
-    console.log('All Results:', results); // Log all results
-
     return results.slice(0, 30); // Return at most 30 records for display
 }
 
