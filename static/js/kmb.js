@@ -1,33 +1,3 @@
-// jQuery document ready function
-$(document).ready(async () => {
-    const fromLat = parseFloat(getAllUrlParams().fmlat);
-    const fromLong = parseFloat(getAllUrlParams().fmlong);
-    const toLat = parseFloat(getAllUrlParams().tolat);
-    const toLong = parseFloat(getAllUrlParams().tolong);
-
-    console.log('loc: ', fromLat, fromLong, toLat, toLong);
-
-    $('body').append('<div id="results"></div>');
-    
-    findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
-        console.log('Found Routes:', routes);
-
-        routes.forEach(v => {
-            $("#results").append(`
-                <div class="route">
-                    <h3>Route: ${v.route}</h3>
-                    <div class="stop">From Stop: ${v.fromStop.name_tc} (Distance: ${v.fromStop.distance.toFixed(2)} km)</div>
-                    <div class="stop">To Stop: ${v.toStop.name_tc} (Distance: ${v.toStop.distance.toFixed(2)} km)</div>
-                </div>
-            `);
-        });
-        
-        if (routes.length === 0) {
-            $("#results").append("<p>No routes found.</p>");
-        }
-    });
-});
-
 async function fetchData(type) {
     const baseUrl = 'https://data.etabus.gov.hk/v1/transport/kmb/';
     const url = type === 'stops' ? `${baseUrl}stop/` : `${baseUrl}route-stop/`;
@@ -73,6 +43,9 @@ function findNearbyStops(stops, fromLat, fromLong, toLat, toLong) {
         })
         .filter(stop => stop.distance <= 1); // Filter within 1 km
 
+    // Debugging output for nearby stops
+    console.log('Found stops: ', nearbyFromStops, nearbyToStops);
+
     return { nearbyFromStops, nearbyToStops };
 }
 
@@ -86,7 +59,6 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
     }
 
     const { nearbyFromStops, nearbyToStops } = findNearbyStops(stops, fromLat, fromLong, toLat, toLong);
-    console.log('Fonud stops: ', nearbyFromStops, nearbyToStops);
 
     // Map for quick lookup of stop sequences
     const stopSeqMap = {};
@@ -110,17 +82,28 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
             seqMap[s.stop] = s.seq;
         });
 
+        let foundPair = false; // Flag to ensure only one pair is found
+
         for (const fromStop of nearbyFromStops) {
             for (const toStop of nearbyToStops) {
                 // Ensure fromStop seq < toStop seq and both stops exist in the route
                 if (
                     seqMap[fromStop.stop] < seqMap[toStop.stop] &&
                     seqMap[fromStop.stop] !== undefined &&
-                    seqMap[toStop.stop] !== undefined
+                    seqMap[toStop.stop] !== undefined &&
+                    !foundPair // Only find one pair per route
                 ) {
-                    results.push({ route, fromStop, toStop });
+                    results.push({
+                        route,
+                        bound: stopsInRoute[0].bound,
+                        serviceType: stopsInRoute[0].service_type,
+                        fromStop,
+                        toStop,
+                    });
+                    foundPair = true; // Set flag to true after finding a pair
                 }
             }
+            if (foundPair) break; // Break outer loop if a pair has been found
         }
     }
 
@@ -137,3 +120,35 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
 
     return results.slice(0, 30); // Return at most 30 records
 }
+
+// jQuery document ready function
+$(document).ready(async () => {
+    const fromLat = parseFloat(getAllUrlParams().fmlat);
+    const fromLong = parseFloat(getAllUrlParams().fmlong);
+    const toLat = parseFloat(getAllUrlParams().tolat);
+    const toLong = parseFloat(getAllUrlParams().tolong);
+
+    console.log('loc: ', fromLat, fromLong, toLat, toLong);
+
+    $('body').append('<div id="results"></div>');
+    
+    findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
+        console.log('Found Routes:', routes);
+
+        routes.forEach(v => {
+            $("#results").append(`
+                <div class="route">
+                    <h3>Route: ${v.route}</h3>
+                    <p>Bound: ${v.bound}</p>
+                    <p>Service Type: ${v.serviceType}</p>
+                    <div class="stop">From Stop: ${v.fromStop.name_tc} (Distance: ${v.fromStop.distance.toFixed(2)} km)</div>
+                    <div class="stop">To Stop: ${v.toStop.name_tc} (Distance: ${v.toStop.distance.toFixed(2)} km)</div>
+                </div>
+            `);
+        });
+        
+        if (routes.length === 0) {
+            $("#results").append("<p>No routes found.</p>");
+        }
+    });
+});
