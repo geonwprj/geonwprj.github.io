@@ -104,11 +104,11 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
         }
 
         // Sort valid pairs by distance of fromStop first (nearest first)
-        validPairs.sort((a, b) => a.fromStop.distance - b.fromStop.distance);
+        validPairs.sort((a, b) => (a.fromStop.distance + b.fromStop.distance) * -1);
 
         // Only keep up to 3 pairs per route
         if (validPairs.length > 0) {
-            results.push(validPairs[0]); // Take only the nearest pair
+            results.push(...validPairs.slice(0, 1));
         }
     }
 
@@ -125,8 +125,6 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
 
         return distA - distB; // Sort by total distance last
     });
-
-    console.log('All Results:', results); // Log all results
 
     return results.slice(0, 30); // Return at most 30 records for display
 }
