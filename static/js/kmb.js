@@ -84,7 +84,7 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
 
         let closestFromStop = null;
         let closestToStop = null;
-        
+
         // Find the closest fromStop and toStop within the route
         if (nearbyFromStops.length > 0 && nearbyToStops.length > 0) {
             closestFromStop = nearbyFromStops.reduce((prev, curr) =>
@@ -112,18 +112,23 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
         }
     }
 
-    // Sort results by distance and limit to 30 records
+    // Sort results by route, bound, service type and total distance (from + to)
     results.sort((a, b) => {
         const distA =
-            haversineDistance(fromLat, fromLong, a.fromStop.lat, a.fromStop.long) +
-            haversineDistance(toLat, toLong, a.toStop.lat, a.toStop.long);
+            a.fromStop.distance + a.toStop.distance;
         const distB =
-            haversineDistance(fromLat, fromLong, b.fromStop.lat, b.fromStop.long) +
-            haversineDistance(toLat, toLong, b.toStop.lat, b.toStop.long);
-        return distA - distB;
+            b.fromStop.distance + b.toStop.distance;
+
+        if (a.route !== b.route) return a.route.localeCompare(b.route);
+        if (a.bound !== b.bound) return a.bound.localeCompare(b.bound);
+        if (a.serviceType !== b.serviceType) return a.serviceType.localeCompare(b.serviceType);
+        
+        return distA - distB; // Sort by total distance last
     });
 
-    return results.slice(0, 30); // Return at most 30 records
+    console.log('All Results:', results); // Log all results
+
+    return results.slice(0, 30); // Return at most 30 records for display
 }
 
 // jQuery document ready function
