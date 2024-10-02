@@ -5,11 +5,24 @@ $(document).ready(async () => {
     const toLong = parseFloat(getAllUrlParams().tolong);
   
     console.log('loc: ', fromLat, fromLong, toLat, toLong);
+    let resultdiv = document.createElement("div");
+    resultdiv.id = 'results'
     findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
         console.log('Found Routes:', routes);
-        routes.map(v => {
-            $("body").append(`<p>${v}</p>`);
-          });
+        routes.forEach(v => {
+            $("#results").append(`
+                <div class="route">
+                    <h3>Route: ${v.route}</h3>
+                    <div class="stop">From Stop: ${v.fromStop.name_tc} (Distance: ${v.fromStop.distance.toFixed(2)} km)</div>
+                    <div class="stop">To Stop: ${v.toStop.name_tc} (Distance: ${v.toStop.distance.toFixed(2)} km)</div>
+                </div>
+            `);
+        });
+        
+        if (routes.length === 0) {
+            $("#results").append("<p>No routes found.</p>");
+        }
+
     });
   })
 
