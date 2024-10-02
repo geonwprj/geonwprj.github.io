@@ -82,7 +82,7 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
             seqMap[s.stop] = s.seq;
         });
 
-        let foundPair = false; // Flag to ensure only one pair is found
+        let validPairs = []; // Store valid pairs for each route
 
         for (const fromStop of nearbyFromStops) {
             for (const toStop of nearbyToStops) {
@@ -90,20 +90,25 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
                 if (
                     seqMap[fromStop.stop] < seqMap[toStop.stop] &&
                     seqMap[fromStop.stop] !== undefined &&
-                    seqMap[toStop.stop] !== undefined &&
-                    !foundPair // Only find one pair per route
+                    seqMap[toStop.stop] !== undefined
                 ) {
-                    results.push({
+                    validPairs.push({
                         route,
                         bound: stopsInRoute[0].bound,
                         serviceType: stopsInRoute[0].service_type,
                         fromStop,
                         toStop,
                     });
-                    foundPair = true; // Set flag to true after finding a pair
                 }
             }
-            if (foundPair) break; // Break outer loop if a pair has been found
+        }
+
+        // Sort valid pairs by distance of fromStop first (nearest first)
+        validPairs.sort((a, b) => a.fromStop.distance - b.fromStop.distance);
+
+        // Only keep up to 3 pairs per route
+        if (validPairs.length > 0) {
+            results.push(...validPairs.slice(0, 3));
         }
     }
 
