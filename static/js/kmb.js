@@ -137,34 +137,3 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
 
     return results.slice(0, 30); // Return at most 30 records
 }
-
-// jQuery document ready function
-$(document).ready(async () => {
-    // Extract parameters directly from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    const fromLat = parseFloat(urlParams.get('fmlat'));
-    const fromLong = parseFloat(urlParams.get('fmlong'));
-    const toLat = parseFloat(urlParams.get('tolat'));
-    const toLong = parseFloat(urlParams.get('tolong'));
-
-    console.log('loc: ', fromLat, fromLong, toLat, toLong);
-    
-    findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
-        console.log('Found Routes:', routes);
-
-        routes.forEach(v => {
-            $("#results").append(`
-                <div class="route">
-                    <h3>Route: ${v.route}</h3>
-                    <div class="stop">From Stop: ${v.fromStop.name_tc} (Distance: ${v.fromStop.distance.toFixed(2)} km)</div>
-                    <div class="stop">To Stop: ${v.toStop.name_tc} (Distance: ${v.toStop.distance.toFixed(2)} km)</div>
-                </div>
-            `);
-        });
-        
-        if (routes.length === 0) {
-            $("#results").append("<p>No routes found.</p>");
-        }
-    });
-});
