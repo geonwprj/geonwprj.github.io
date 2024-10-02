@@ -142,14 +142,12 @@ $(document).ready(async () => {
 
     $('body').append('<div id="results"></div>');
 
-    findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
+    routes = await findRoutes(fromLat, fromLong, toLat, toLong);
+    // findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
 
         if (routes.length === 0 || !fromLat) {
             $("#results").append("<p>No routes found. Usage: kmb.html?fmlat=<latitude>&fmlong=<longitude>&tolat=<latitude>&tolong=<longitude>&format=json</p>");
-            return;
-        }
-
-        if (format === 'json') {
+        } else if (format === 'json') {
             // Format results as specified in JSON structure
             const formattedResults = routes.map(v => ({
                 route: v.route,
@@ -164,29 +162,29 @@ $(document).ready(async () => {
             }));
             $("#results").append(`<pre>${JSON.stringify(formattedResults, null, 2)}</pre>`); // Show JSON formatted output directly in HTML
             return;
-        }
+        } else {
 
-        console.log('Found Routes:', routes);
+            console.log('Found Routes:', routes);
 
-        $("#results").append('<table border="1"><tr><th>Route</th><th>Bound</th><th>Service Type</th><th>From Stop</th><th>To Stop</th></tr>');
+            $("#results").append('<table border="1"><tr><th>Route</th><th>Bound</th><th>Service Type</th><th>From Stop</th><th>To Stop</th></tr>');
 
-        routes.forEach(v => {
-            $("#results table").append(`
-                <tr>
-                    <td>${v.route}</td>
-                    <td>${v.bound}</td>
-                    <td>${v.serviceType}</td>
-                    <td>${v.fromStop.name_tc} (${v.fromStop.stop}) - Distance: ${v.fromStop.distance.toFixed(2)} km</td>
-                    <td>${v.toStop.name_tc} (${v.toStop.stop}) - Distance: ${v.toStop.distance.toFixed(2)} km</td>
-                </tr>
-            `);
-        });
+            routes.forEach(v => {
+                $("#results table").append(`
+                    <tr>
+                        <td>${v.route}</td>
+                        <td>${v.bound}</td>
+                        <td>${v.serviceType}</td>
+                        <td>${v.fromStop.name_tc} (${v.fromStop.stop}) - Distance: ${v.fromStop.distance.toFixed(2)} km</td>
+                        <td>${v.toStop.name_tc} (${v.toStop.stop}) - Distance: ${v.toStop.distance.toFixed(2)} km</td>
+                    </tr>
+                `);
+            });
 
-        $("#results").append('</table>');
+            $("#results").append('</table>');
 
-        if (routes.length === 0) {
-            $("#results").append("<p>No routes found.</p>");
-        }
-
-    });
+            if (routes.length === 0) {
+                $("#results").append("<p>No routes found.</p>");
+            }
+        };
+    // });
 });
