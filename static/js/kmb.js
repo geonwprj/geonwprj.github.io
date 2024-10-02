@@ -82,33 +82,28 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
             seqMap[s.stop] = s.seq;
         });
 
-        let closestFromStop = null;
-        let closestToStop = null;
+        let foundPair = false; // Flag to ensure only one pair is found
 
-        // Find the closest fromStop and toStop within the route
-        if (nearbyFromStops.length > 0 && nearbyToStops.length > 0) {
-            closestFromStop = nearbyFromStops.reduce((prev, curr) =>
-                prev.distance < curr.distance ? prev : curr
-            );
-
-            closestToStop = nearbyToStops.reduce((prev, curr) =>
-                prev.distance < curr.distance ? prev : curr
-            );
-
-            // Ensure both stops exist in the route and that fromStop seq < toStop seq
-            if (
-                seqMap[closestFromStop.stop] < seqMap[closestToStop.stop] &&
-                seqMap[closestFromStop.stop] !== undefined &&
-                seqMap[closestToStop.stop] !== undefined
-            ) {
-                results.push({
-                    route,
-                    bound: stopsInRoute[0].bound,
-                    serviceType: stopsInRoute[0].service_type,
-                    fromStop: closestFromStop,
-                    toStop: closestToStop,
-                });
+        for (const fromStop of nearbyFromStops) {
+            for (const toStop of nearbyToStops) {
+                // Ensure fromStop seq < toStop seq and both stops exist in the route
+                if (
+                    seqMap[fromStop.stop] < seqMap[toStop.stop] &&
+                    seqMap[fromStop.stop] !== undefined &&
+                    seqMap[toStop.stop] !== undefined &&
+                    !foundPair // Only find one pair per route
+                ) {
+                    results.push({
+                        route,
+                        bound: stopsInRoute[0].bound,
+                        serviceType: stopsInRoute[0].service_type,
+                        fromStop,
+                        toStop,
+                    });
+                    foundPair = true; // Set flag to true after finding a pair
+                }
             }
+            if (foundPair) break; // Break outer loop if a pair has been found
         }
     }
 
@@ -122,11 +117,11 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
         if (a.route !== b.route) return a.route.localeCompare(b.route);
         if (a.bound !== b.bound) return a.bound.localeCompare(b.bound);
         if (a.serviceType !== b.serviceType) return a.serviceType.localeCompare(b.serviceType);
-        
+
         return distA - distB; // Sort by total distance last
     });
 
-    console.log('Found Routes:', results); // Log all results
+    console.log('All Results:', results); // Log all results
 
     return results.slice(0, 30); // Return at most 30 records for display
 }
@@ -143,6 +138,7 @@ $(document).ready(async () => {
     $('body').append('<div id="results"></div>');
     
     findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
+        console.log('Found Routes:', routes);
 
         routes.forEach(v => {
             $("#results").append(`
