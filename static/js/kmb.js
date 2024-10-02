@@ -3,9 +3,11 @@ $(document).ready(async () => {
     const fromLat = parseFloat(getAllUrlParams().fmlat);
     const fromLong = parseFloat(getAllUrlParams().fmlong);
     const toLat = parseFloat(getAllUrlParams().tolat);
-    const toLong = parseFloat(getAllUrlParams().tolng);
+    const toLong = parseFloat(getAllUrlParams().tolong);
 
     console.log('loc: ', fromLat, fromLong, toLat, toLong);
+
+    $('body').append('<div id="results"></div>');
     
     findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
         console.log('Found Routes:', routes);
