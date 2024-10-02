@@ -13,7 +13,7 @@ $(document).ready(async () => {
     });
   })
 
-async function fetchData(type) {
+  async function fetchData(type) {
     const baseUrl = 'https://data.etabus.gov.hk/v1/transport/kmb/';
     const url = type === 'stops' ? `${baseUrl}stop/` : `${baseUrl}route-stop/`;
 
@@ -44,13 +44,19 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
 }
 
 function findNearbyStops(stops, fromLat, fromLong, toLat, toLong) {
-    const nearbyFromStops = stops.filter(stop => 
-        haversineDistance(fromLat, fromLong, stop.lat, stop.long) <= 1
-    );
+    const nearbyFromStops = stops
+        .map(stop => {
+            const distance = haversineDistance(fromLat, fromLong, stop.lat, stop.long);
+            return { ...stop, distance }; // Include distance in the returned object
+        })
+        .filter(stop => stop.distance <= 1); // Filter within 1 km
 
-    const nearbyToStops = stops.filter(stop => 
-        haversineDistance(toLat, toLong, stop.lat, stop.long) <= 1
-    );
+    const nearbyToStops = stops
+        .map(stop => {
+            const distance = haversineDistance(toLat, toLong, stop.lat, stop.long);
+            return { ...stop, distance }; // Include distance in the returned object
+        })
+        .filter(stop => stop.distance <= 1); // Filter within 1 km
 
     return { nearbyFromStops, nearbyToStops };
 }
@@ -65,7 +71,6 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
     }
 
     const { nearbyFromStops, nearbyToStops } = findNearbyStops(stops, fromLat, fromLong, toLat, toLong);
-    console.log('Found stops:', nearbyFromStops, nearbyToStops);
 
     // Map for quick lookup of stop sequences
     const stopSeqMap = {};
@@ -78,7 +83,6 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
     });
 
     let results = [];
-    console.log('Found routeStops:', routeStops);
 
     // Check each route for valid connections
     for (const route in stopSeqMap) {
@@ -95,7 +99,6 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
             }
         }
     }
-    console.log('Found results:', results);
 
     // Sort results by distance and limit to 30 records
     results.sort((a, b) => {
