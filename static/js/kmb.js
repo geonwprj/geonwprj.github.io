@@ -86,6 +86,7 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
     }
 
     const { nearbyFromStops, nearbyToStops } = findNearbyStops(stops, fromLat, fromLong, toLat, toLong);
+    console.log('Found stops: ', nearbyFromStops, nearbyToStops);
 
     // Map for quick lookup of stop sequences
     const stopSeqMap = {};
