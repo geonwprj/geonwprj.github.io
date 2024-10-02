@@ -108,7 +108,7 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
 
         // Only keep up to 3 pairs per route
         if (validPairs.length > 0) {
-            results.push(...validPairs.slice(0, 3));
+            results.push(...validPairs.slice(0, 1));
         }
     }
 
