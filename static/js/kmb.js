@@ -104,7 +104,7 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
         }
 
         // Sort valid pairs by distance of fromStop first (nearest first)
-        validPairs.sort((a, b) => a.fromStop.distance - b.fromStop.distance);
+        validPairs.sort((a, b) => abs(a.fromStop.distance + b.fromStop.distance));
 
         // Only keep up to 3 pairs per route
         if (validPairs.length > 0) {
