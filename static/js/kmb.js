@@ -104,16 +104,13 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
         }
 
         // Sort valid pairs by distance of fromStop first (nearest first)
-        validPairs.sort((a, b) => a.fromStop.distance - b.fromStop.distance);
+        validPairs.sort((a, b) => (a.fromStop.distance + b.fromStop.distance) * -1);
 
         // Only keep up to 3 pairs per route
         if (validPairs.length > 0) {
-            results.push(validPairs.slice(0, 3)); // Keep up to three pairs per route
+            results.push(...validPairs.slice(0, 1));
         }
     }
-
-    // Flatten the results array since we have an array of arrays now
-    results = [].concat(...results);
 
     // Sort results by route, bound, service type and total distance (from + to)
     results.sort((a, b) => {
@@ -129,31 +126,25 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
         return distA - distB; // Sort by total distance last
     });
 
-    console.log('All Results:', results); // Log all results
-
-    return results; // Return all records for display
+    return results.slice(0, 30); // Return at most 30 records for display
 }
 
 // jQuery document ready function
 $(document).ready(async () => {
     
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    const fromLat = parseFloat(urlParams.get('fmlat'));
-    const fromLong = parseFloat(urlParams.get('fmlong'));
-    const toLat = parseFloat(urlParams.get('tolat'));
-    const toLong = parseFloat(urlParams.get('tolong'));
-    
-    // Check for format parameter
-    const format = urlParams.get('format') || 'html'; // Default to HTML if not provided
+    const fromLat = parseFloat(getAllUrlParams().fmlat);
+    const fromLong = parseFloat(getAllUrlParams().fmlong);
+    const toLat = parseFloat(getAllUrlParams().tolat);
+    const toLong = parseFloat(getAllUrlParams().tolong);
+    const format = getAllUrlParams().format || 'html';
     
     console.log('loc: ', fromLat, fromLong, toLat, toLong);
 
     $('body').append('<div id="results"></div>');
     
     findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
-
-        if (routes.length === 0 || isNaN(fromLat)) { 
+        
+        if (routes.length === 0 || !fromLat) { 
             $("#results").append("<p>No routes found. Usage: kmb.html?fmlat=<latitude>&fmlong=<longitude>&tolat=<latitude>&tolong=<longitude>&format=json</p>");
             return;
         }
