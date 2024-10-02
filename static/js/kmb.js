@@ -1,8 +1,8 @@
 $(document).ready(async () => {
-    const fromLat = parseFloat(getAllUrlParams().fmLat);
-    const fromLong = parseFloat(getAllUrlParams().fmLong);
-    const toLat = parseFloat(getAllUrlParams().toLat);
-    const toLong = parseFloat(getAllUrlParams().toLong);
+    const fromLat = parseFloat(getAllUrlParams().fmlat);
+    const fromLong = parseFloat(getAllUrlParams().fmlong);
+    const toLat = parseFloat(getAllUrlParams().tolat);
+    const toLong = parseFloat(getAllUrlParams().tolong);
   
     console.log('loc: ', fromLat, fromLong, toLat, toLong);
     findRoutes(fromLat, fromLong, toLat, toLong).then(routes => {
