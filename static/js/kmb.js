@@ -64,6 +64,7 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
     }
 
     const { nearbyFromStops, nearbyToStops } = findNearbyStops(stops, fromLat, fromLong, toLat, toLong);
+    console.log('Found stops:', nearbyFromStops, nearbyToStops);
 
     // Map for quick lookup of stop sequences
     const stopSeqMap = {};
@@ -76,6 +77,7 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
     });
 
     let results = [];
+    console.log('Found routeStops:', routeStops);
 
     // Check each route for valid connections
     for (const route in stopSeqMap) {
@@ -92,6 +94,7 @@ async function findRoutes(fromLat, fromLong, toLat, toLong) {
             }
         }
     }
+    console.log('Found results:', results);
 
     // Sort results by distance and limit to 30 records
     results.sort((a, b) => {
