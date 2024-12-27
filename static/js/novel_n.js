@@ -36,6 +36,9 @@ $(document).ready(async () => {
     let content = await getContent(url);
     console.log(content);
 
+    const jsCodeRegex = /\(AdProvider = window\.AdProvider/g;
+
+
     // Define a regular expression to match JavaScript code blocks
     // const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| 
 
@@ -44,7 +47,7 @@ $(document).ready(async () => {
     // \)\.push\(\{"serve": \{\}\}\);/g;
 
     // // const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| \[\]\)\.push\(\{"serve"\: \{\}\}\);/g: 
-    // content = content.replace(jsCodeRegex, '');
+    content = content.replace(jsCodeRegex, '');
 
     // content = content.replace(/(AdProvider = window.AdProvider \|\| []).push({"serve": {}});/g, "");
     let lines = content.split(/\r/);
