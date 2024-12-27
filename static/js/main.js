@@ -73,7 +73,12 @@ function getAllUrlParams(url) {
   }
 
 function getScrape(source, selector, attr) {
-  let url = "https://web.scraper.workers.dev/?scrape=text";
+  let url = "https://web.scraper.workers.dev/?";
+  if (attr||"" != "") {
+    url += "scrape=attr"
+  } else {
+    url += "scrape=text"
+  }
   if (selector||"" != "") {
     url += "&selector=" + encodeURIComponent(selector);
   }
