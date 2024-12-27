@@ -37,7 +37,7 @@ $(document).ready(async () => {
     console.log(content);
 
     content = content.replace(/(AdProvider = window.AdProvider \|\| []).push({"serve": {}});/g, "");
-    let lines = content.split(/\n\r/);
+    let lines = content.split(/\r/);
     content = lines.map(line => `<p>${line}</p>`).join("");
 
     let contentdiv = document.createElement("div");
