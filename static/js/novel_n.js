@@ -20,7 +20,7 @@ $(document).ready(async () => {
 
     let url = "https://www.drxsw.com/book/3534941/1926994403.html";
     let nextpage = await getNextUrl(url);
-    console.log('xxx');
+    console.log('xxy');
     console.log(nextpage);
     $("body").append(nextpage);
     let content = await getContent(url);
@@ -30,20 +30,18 @@ $(document).ready(async () => {
 
 async function getNextUrl(url) {
   const selector = "a#nextChapterBottom";
-  return await getScrape(url, selector, 'href');
+  getScrape(url, selector, 'href').then(rtn => {
+    return rtn.result;
+  });
 }
 
 async function getContent(url) {
   const selector = "div#TextContent";
-  let rtn = await getScrape(url, selector);
-  return rtn.result[selector][0];
-
-  // getScrape(url, selector, 'href').then(rtn => {
-  //   console.log(rtn);
-  //   console.log(rtn.result);
-  //   return rtn.result;
-  // })
+  getScrape(url, selector).then(rtn => {
+    return rtn.result[selector][0];
+  });
 }
+
 function getPage(url) {
     return fetch(url).then((r) => {
         if (r.status===200) {
