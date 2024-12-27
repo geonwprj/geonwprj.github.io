@@ -12,15 +12,16 @@ $(document).ready(async () => {
     index = index? index: "1";
     
     let url = "";
-    let page = "";
+    let bookdtl = "";
     source = source? source: "drxsw";
     if (source = "drxsw") {
         url = "https://www.drxsw.com/zh_hant/book/";
         url += id + "/";
-        page = await getPage(url, index);
+        bookdtl = await getPage(url, index);
+        document.title = bookdtl.title
+        url += bookdtl.page;
         // console.log(page);
     }
-    url += page;
 
     let nextpage = await getNextUrl(url);
     // console.log(nextpage);
@@ -43,8 +44,21 @@ $(document).ready(async () => {
     contentdiv.id = "TextContent"
     contentdiv.innerHTML = content;
 
-    $("body").append(contentdiv);
-    $("body").append(nextlink);
+    let headersec = document.createElement("header");
+    let headerh1 = document.createElement("h1");
+    headerh1.innerHTML = bookdtl.title;
+    headersec.append(headerh1);
+    $("body").append(headersec);
+
+    let articlesec = document.createElement("article");
+    let articleinner = document.createElement("section");
+    articleinner.innerHTML = content;
+    articlesec.append(articleinner);
+    $("body").append(articlesec);
+
+    let footersec = document.createElement("footer");
+    footersec.append(nextlink)
+    $("body").append(footersec);
   })
 
 async function getNextUrl(url) {
@@ -60,7 +74,17 @@ async function getContent(url) {
 }
 
 async function getPage(url, index) {
-  const selector = "div#newlist > ul#chapterList > li:nth-child(" + index + ") > a";
-  let rtn = await getScrape(url, selector, 'href');
-  return rtn.result;
+  let selector = "div#newlist > ul#chapterList > li:nth-child(" + index + ") > a";
+  let page = await getScrape(url, selector, 'href');
+  let rtn.page = page.result;
+
+  selector = 'div.d_title > h1';
+  let title = await getScrape(url, selector);
+  rtn.title = title.result[selector][0];
+
+  selector = 'div.d_title > span';
+  let author = await getScrape(url, selector);
+  rtn.author = author.result[selector][0];
+
+  return rtn;
 }
