@@ -47,7 +47,7 @@ $(document).ready(async () => {
     // \)\.push\(\{"serve": \{\}\}\);/g;
 
     // // const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| \[\]\)\.push\(\{"serve"\: \{\}\}\);/g: 
-    content = content.replace(jsCodeRegex, '');
+    content = content.replace(jsCodeRegex, '</p><p>');
 
     // content = content.replace(/(AdProvider = window.AdProvider \|\| []).push({"serve": {}});/g, "");
     let lines = content.split(/\r/);
