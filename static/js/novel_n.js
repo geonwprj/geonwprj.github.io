@@ -74,9 +74,12 @@ async function getContent(url) {
 }
 
 async function getPage(url, index) {
+  // Initialize the rtn object
+  let rtn = {};
+
   let selector = "div#newlist > ul#chapterList > li:nth-child(" + index + ") > a";
   let page = await getScrape(url, selector, 'href');
-  let rtn.page = page.result;
+  rtn.page = page.result;
 
   selector = 'div.d_title > h1';
   let title = await getScrape(url, selector);
