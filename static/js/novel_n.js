@@ -37,14 +37,14 @@ $(document).ready(async () => {
     console.log(content);
 
     // Define a regular expression to match JavaScript code blocks
-    const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| 
+    // const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| 
 
-    \[\]
+    // \[\]
 
-    \)\.push\(\{"serve": \{\}\}\);/g;
+    // \)\.push\(\{"serve": \{\}\}\);/g;
 
-    // const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| \[\]\)\.push\(\{"serve"\: \{\}\}\);/g: 
-    content = content.replace(jsCodeRegex, '');
+    // // const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| \[\]\)\.push\(\{"serve"\: \{\}\}\);/g: 
+    // content = content.replace(jsCodeRegex, '');
 
     // content = content.replace(/(AdProvider = window.AdProvider \|\| []).push({"serve": {}});/g, "");
     let lines = content.split(/\r/);
