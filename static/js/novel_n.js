@@ -19,6 +19,7 @@ $(document).ready(async () => {
     // }
 
     let nextpage = await getNextUrl("https://www.drxsw.com/book/3534941/1926994403.html");
+    console.log('xxx');
     $("body").append(nextpage);
 
   })
