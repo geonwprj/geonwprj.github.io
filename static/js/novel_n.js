@@ -35,16 +35,17 @@ async function getNextUrl(url) {
   // const selector = "div>ul>li"
 
   const selector = "a#nextChapterBottom"
+  // return await getScrape(url, selector)
 
   getScrape(url, selector).then(rtn => {
-    if (format=="json") {
+    // if (format=="json") {
       const pagesize = 10;
       let data = {"result": formatSearchNovelResult(rtn.result[selector]).slice(pagesize * (page-1), pagesize * page)};
       let mainpre = document.createElement("pre");
       mainpre.innerHTML = JSON.stringify(data, null, 2);
       $("body").append(mainpre);
-    } else {
-    }
+    // } else {
+    // }
   })
 }
 function getPage(url) {
