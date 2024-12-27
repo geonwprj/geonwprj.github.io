@@ -14,14 +14,16 @@ $(document).ready(async () => {
     console.log('xxz');
     index = index? index: "1";
     
+    let url = "";
+    let page = "";
     source = source? source: "drxsw";
     if (source = "drxsw") {
-        let url = "https://www.drxsw.com/zh_hant/book/";
+        url = "https://www.drxsw.com/zh_hant/book/";
         url += id + "/";
-        let page = await getPage(url, index);
+        page = await getPage(url, index);
         console.log(page);
     }
-    url += page
+    url += page;
 
     // let url = "https://www.drxsw.com/zh_hant/book/3534941/1926994403.html";
     let nextpage = await getNextUrl(url);
