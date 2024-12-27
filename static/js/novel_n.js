@@ -31,7 +31,7 @@ $(document).ready(async () => {
     let nextlink = document.createElement("a");
     nextlink.id = "nextChapterBottom";
     nextlink.text = "next";
-    nextlink.href = "/novel_n.html?bookid="+id+"&index="+(parseInt(index)+1);
+    nextlink.href = "/novel_n.html?bookid="+id+"&index="+(parseInt(index, 10) + 1).toString();
 
     let content = await getContent(url);
     console.log(content);
