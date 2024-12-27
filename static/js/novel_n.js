@@ -38,12 +38,13 @@ async function getNextUrl(url) {
   // return await getScrape(url, selector)
 
   getScrape(url, selector).then(rtn => {
+    console.log(rtn);
     // if (format=="json") {
-      const pagesize = 10;
-      let data = {"result": formatSearchNovelResult(rtn.result[selector]).slice(pagesize * (page-1), pagesize * page)};
-      let mainpre = document.createElement("pre");
-      mainpre.innerHTML = JSON.stringify(data, null, 2);
-      $("body").append(mainpre);
+      // const pagesize = 10;
+      // let data = {"result": formatSearchNovelResult(rtn.result[selector]).slice(pagesize * (page-1), pagesize * page)};
+      // let mainpre = document.createElement("pre");
+      // mainpre.innerHTML = JSON.stringify(data, null, 2);
+      // $("body").append(mainpre);
     // } else {
     // }
   })
