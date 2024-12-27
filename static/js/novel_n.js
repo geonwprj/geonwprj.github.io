@@ -34,12 +34,12 @@ $(document).ready(async () => {
     nextlink.href = "/novel_n.html?bookid="+id+"&index="+(parseInt(index)+1);
 
     let content = await getContent(url);
+    console.log(content);
 
     content = content.replace(/(AdProvider = window.AdProvider || []).push({"serve": {}});/g, "");
     let lines = content.split(/\n\r/);
     content = lines.map(line => `<p>${line}</p>`).join("");
 
-    // console.log(content);
     let contentdiv = document.createElement("div");
     contentdiv.id = "TextContent"
     contentdiv.innerHTML = content;
