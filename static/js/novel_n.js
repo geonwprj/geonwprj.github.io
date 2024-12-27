@@ -36,7 +36,12 @@ $(document).ready(async () => {
     let content = await getContent(url);
     console.log(content);
 
-    content = content.replace(/(AdProvider = window.AdProvider \|\| []).push({"serve": {}});/g, "");
+    const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| 
+      \[\]
+      \)\.push\(\{"serve": 
+    content = content.replace(jsCodeRegex, '');
+
+    // content = content.replace(/(AdProvider = window.AdProvider \|\| []).push({"serve": {}});/g, "");
     let lines = content.split(/\r/);
     content = lines.map(line => `<p>${line}</p>`).join("");
 
