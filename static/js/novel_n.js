@@ -7,11 +7,8 @@ $(document).ready(async () => {
     let index = getAllUrlParams().index;
     let mode = getAllUrlParams().mode;
     let source = getAllUrlParams().source;
-    // https://web.scraper.workers.dev/?url=https%3A%2F%2Fwww.drxsw.com%2Fbook%2F3534941%2F1926994403.html&selector=a%23nextChapterBottom&scrape=attr&attr=href
-    // https://web.scraper.workers.dev/?url=https%3A%2F%2Fwww.drxsw.com%2Fbook%2F3534941%2F1926994403.html&selector=div%23TextContent&scrape=text
-    // a#nextChapterBottom
 
-    console.log('xxz');
+    // console.log('xxz');
     index = index? index: "1";
     
     let url = "";
@@ -21,11 +18,10 @@ $(document).ready(async () => {
         url = "https://www.drxsw.com/zh_hant/book/";
         url += id + "/";
         page = await getPage(url, index);
-        console.log(page);
+        // console.log(page);
     }
     url += page;
 
-    // let url = "https://www.drxsw.com/zh_hant/book/3534941/1926994403.html";
     let nextpage = await getNextUrl(url);
     // console.log(nextpage);
     let nextlink = document.createElement("a");
@@ -34,19 +30,9 @@ $(document).ready(async () => {
     nextlink.href = "/novel_n.html?bookid="+id+"&index="+(parseInt(index, 10) + 1).toString();
 
     let content = await getContent(url);
-    console.log(content);
+    // console.log(content);
 
     const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| \[\]\)\.push\(\{\"serve\"\: \{\}\}\)\;/g;
-
-    // || []).push({"serve": {}});
-    // Define a regular expression to match JavaScript code blocks
-    // const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| 
-
-    // \[\]
-
-    // \)\.push\(\{"serve": \{\}\}\);/g;
-
-    // // const jsCodeRegex = /\(AdProvider = window\.AdProvider \|\| \[\]\)\.push\(\{"serve"\: \{\}\}\);/g: 
     content = content.replace(jsCodeRegex, '</p><p>');
 
     // content = content.replace(/(AdProvider = window.AdProvider \|\| []).push({"serve": {}});/g, "");
