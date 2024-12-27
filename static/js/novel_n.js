@@ -39,7 +39,8 @@ async function getNextUrl(url) {
 
   getScrape(url, selector, 'href').then(rtn => {
     console.log(rtn);
-    console.log(rtn.result[selector][0]);    
+    console.log(rtn.result);
+    return rtn.result;
     // if (format=="json") {
       // const pagesize = 10;
       // let data = {"result": formatSearchNovelResult(rtn.result[selector]).slice(pagesize * (page-1), pagesize * page)};
