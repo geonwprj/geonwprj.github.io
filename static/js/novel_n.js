@@ -30,6 +30,7 @@ $(document).ready(async () => {
     // console.log(nextpage);
     let nextlink = document.createElement("a");
     nextlink.id = "nextChapterBottom";
+    nextlink.text = "next";
     nextlink.href = "/novel_n.html?bookid="+id+"&index="+(parseInt(index)+1);
 
     let content = await getContent(url);
