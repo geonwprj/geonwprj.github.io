@@ -21,14 +21,23 @@ $(document).ready(async () => {
         let page = await getPage(url, index);
         console.log(page);
     }
+    url += page
 
     // let url = "https://www.drxsw.com/zh_hant/book/3534941/1926994403.html";
-    // let nextpage = await getNextUrl(url);
+    let nextpage = await getNextUrl(url);
     // console.log(nextpage);
-    // $("body").append(nextpage);
-    // let content = await getContent(url);
-    // console.log(content);
+    let nextlink = document.createElement("a");
+    nextlink.id = "nextChapterBottom";
+    nextlink.href = "/novel_n.html?bookid="+id+"&index="+parseInt(index)+1;
 
+    let content = await getContent(url);
+    // console.log(content);
+    let contentdiv = document.createElement("div");
+    contentdiv.id = "TextContent"
+    contentdiv.innerHTML = content;
+
+    $("body").append(contentdiv);
+    $("body").append(nextlink);
   })
 
 async function getNextUrl(url) {
