@@ -36,7 +36,7 @@ $(document).ready(async () => {
     let content = await getContent(url);
     console.log(content);
 
-    content = content.replace(/(AdProvider = window.AdProvider || []).push({"serve": {}});/g, "");
+    content = content.replace(/(AdProvider = window.AdProvider \|\| []).push({"serve": {}});/g, "");
     let lines = content.split(/\n\r/);
     content = lines.map(line => `<p>${line}</p>`).join("");
 
