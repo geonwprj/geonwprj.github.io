@@ -35,7 +35,8 @@ async function getNextUrl(url) {
 
 async function getContent(url) {
   const selector = "div#TextContent";
-  return await getScrape(url, selector);
+  let rtn = await getScrape(url, selector);
+  return rtn.result[selector][0];
 
   // getScrape(url, selector, 'href').then(rtn => {
   //   console.log(rtn);
