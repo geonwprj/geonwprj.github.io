@@ -18,38 +18,30 @@ $(document).ready(async () => {
     //     getPage(url);
     // }
 
-    let nextpage = await getNextUrl("https://www.drxsw.com/book/3534941/1926994403.html");
+    let url = "https://www.drxsw.com/book/3534941/1926994403.html";
+    let nextpage = await getNextUrl(url);
     console.log('xxx');
+    console.log(nextpage);
     $("body").append(nextpage);
+    let content = await getContent(url);
+    console.log(content);
 
   })
+
 async function getNextUrl(url) {
-  //https://www.ttkan.co/novel/search?q=贅婿
-  //https://web.scraper.workers.dev/?
-  //url=https%3A%2F%2Fwww.ttkan.co%2Fnovel%2Fsearch%3Fq%3D%25E8%25B4%2585%25E5%25A9%25BF
-  //selector=div+%3E+ul+%3E+li
-  //scrape=text
+  const selector = "a#nextChapterBottom";
+  return await getScrape(url, selector, 'href');
+}
 
-  // let url = "https://www.ttkan.co/novel/search?q=";
-  // url += search
-  // const selector = "div>ul>li"
+async function getContent(url) {
+  const selector = "div#TextContent";
+  return await getScrape(url, selector);
 
-  const selector = "a#nextChapterBottom"
-  // return await getScrape(url, selector)
-
-  getScrape(url, selector, 'href').then(rtn => {
-    console.log(rtn);
-    console.log(rtn.result);
-    return rtn.result;
-    // if (format=="json") {
-      // const pagesize = 10;
-      // let data = {"result": formatSearchNovelResult(rtn.result[selector]).slice(pagesize * (page-1), pagesize * page)};
-      // let mainpre = document.createElement("pre");
-      // mainpre.innerHTML = JSON.stringify(data, null, 2);
-      // $("body").append(mainpre);
-    // } else {
-    // }
-  })
+  // getScrape(url, selector, 'href').then(rtn => {
+  //   console.log(rtn);
+  //   console.log(rtn.result);
+  //   return rtn.result;
+  // })
 }
 function getPage(url) {
     return fetch(url).then((r) => {
