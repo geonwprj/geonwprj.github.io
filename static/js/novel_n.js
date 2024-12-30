@@ -42,12 +42,12 @@ $(document).ready(async () => {
 
     let contentdiv = document.createElement("div");
     contentdiv.id = "TextContent"
-    try {
-      let tmp = await tocantonese(content);
-      contentdiv.innerHTML = tmp;
-    } catch (e) {
+    // try {
+    //   let tmp = await tocantonese(content);
+    //   contentdiv.innerHTML = tmp;
+    // } catch (e) {
       contentdiv.innerHTML = content;
-    }
+    // }
 
     let headersec = document.createElement("header");
     let headerh1 = document.createElement("h1");
