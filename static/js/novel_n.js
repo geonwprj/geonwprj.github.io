@@ -40,12 +40,14 @@ $(document).ready(async () => {
     let lines = content.split(/\r/);
     content = lines.map(line => `<p>${line}</p>`).join("");
 
-    let tmp = await tocantonese(content);
-    console.log(tmp);
-
     let contentdiv = document.createElement("div");
     contentdiv.id = "TextContent"
-    contentdiv.innerHTML = content;
+    try {
+      let tmp = await tocantonese(content);
+      contentdiv.innerHTML = tmp;
+    } catch(e) {
+      contentdiv.innerHTML = content;
+    }
 
     let headersec = document.createElement("header");
     let headerh1 = document.createElement("h1");
