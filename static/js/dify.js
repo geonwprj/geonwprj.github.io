@@ -19,7 +19,8 @@ async function runWorkflow(key, inputs) {
                 'Accept': 'application/json',
                 'Accept-Charset': 'utf-8'
             },
-            body: JSON.stringify(requestBody)
+            body: JSON.stringify(requestBody),
+            mode: 'no-cors'
         });
         
         console.log(response);
