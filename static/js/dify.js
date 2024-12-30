@@ -26,6 +26,8 @@ async function runWorkflow(key, inputs) {
         const data = await response.json();
         return data.data.outputs.second_translation;
     } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
+        console.log('Error');
+        console.log(error);
+        // console.error('There was a problem with the fetch operation:', error);
     }
 }

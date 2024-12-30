@@ -45,7 +45,7 @@ $(document).ready(async () => {
     try {
       let tmp = await tocantonese(content);
       contentdiv.innerHTML = tmp;
-    } catch(e) {
+    } catch (e) {
       console.log('! error');
       console.log(e);
       contentdiv.innerHTML = '<p>err</p>'+content;
