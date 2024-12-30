@@ -33,7 +33,7 @@ async function runWorkflow(key, inputs) {
         console.log(data);
         document.getElementById('api-response').textContent = JSON.stringify(data, null, 2);
     } catch (error) {
-        console.log('!! error');
+        console.log('!!!! error');
         console.log(error);
         console.error('There was a problem with the fetch operation:', error);
     }
