@@ -40,6 +40,9 @@ $(document).ready(async () => {
     let lines = content.split(/\r/);
     content = lines.map(line => `<p>${line}</p>`).join("");
 
+    let tmp = await tocantonese(content);
+    console.log(tmp);
+
     let contentdiv = document.createElement("div");
     contentdiv.id = "TextContent"
     contentdiv.innerHTML = content;
@@ -60,6 +63,15 @@ $(document).ready(async () => {
     footersec.append(nextlink)
     $("body").append(footersec);
   })
+
+async function tocantonese(content) {
+  const key = 'app-klVv32y1mzHsnHeL5LwWPTqX';
+  const inputs = {
+            "input_text": content
+        };
+  let rtn = await runWorkflow(key, inputs);
+  return rtn;
+}
 
 async function getNextUrl(url) {
   const selector = "a#nextChapterBottom";
