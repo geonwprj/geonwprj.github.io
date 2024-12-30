@@ -46,9 +46,7 @@ $(document).ready(async () => {
       let tmp = await tocantonese(content);
       contentdiv.innerHTML = tmp;
     } catch (e) {
-      console.log('! error');
-      console.log(e);
-      contentdiv.innerHTML = '<p>err</p>'+content;
+      contentdiv.innerHTML = content;
     }
 
     let headersec = document.createElement("header");
