@@ -48,7 +48,7 @@ $(document).ready(async () => {
     } catch(e) {
       console.log('! error');
       console.log(e);
-      contentdiv.innerHTML = content;
+      contentdiv.innerHTML = '<p>err</p>'+content;
     }
 
     let headersec = document.createElement("header");
