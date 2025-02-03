@@ -1,86 +1,93 @@
-/**
- * Scriptable Web Content Capture and API Integration
- * 
- * This script captures content from a specified webpage and sends it to a configured API.
- * It allows for local configuration storage, making it easy to manage API endpoints and 
- * headers without modifying the script directly.
- * 
- * Usage:
- * - Create a widget in Scriptable that points to this script.
- * - Modify the `apiUrl`, `headers`, and `targetUrl` in the configuration section as needed.
- * - Run the script directly or through the widget to capture content and send it to the API.
- *
- * Configuration:
- * - apiUrl: The endpoint where data will be sent.
- * - headers: Any required headers for the API request (e.g., authorization).
- * - targetUrl: The webpage from which content will be captured.
- *
- * Notes:
- * - Ensure sensitive information in headers is handled securely.
- * - Test the script after any changes to ensure functionality.
- *
- * Author: gw
- * Date: 2025-02-03
- */
+// ==UserScript==
+// @name         My Custom Button Script
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  Adds a button to capture content and send to an API
+// @include      https://example.com/*  // Change this to your target website(s)
+// @grant        GM_xmlhttpRequest
+// ==/UserScript==
 
-const fm = FileManager.local();
-const configFilePath = fm.joinPath(fm.documentsDirectory(), "config.json");
+(function() {
+    'use strict';
 
-// Load or initialize configuration
-let config;
-if (fm.fileExists(configFilePath)) {
-    const configData = fm.readString(configFilePath);
-    config = JSON.parse(configData);
-} else {
-    // Default configuration
-    config = {
-        apiUrl: "https://api.example.com/endpoint", // Your API endpoint
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer YOUR_TOKEN" // Replace with your token if needed
-        },
-        targetUrl: "https://example.com" // URL to capture content from
-    };
-    fm.writeString(configFilePath, JSON.stringify(config));
-}
-
-// Function to capture content from the target URL
-async function captureContent() {
-    let req = new Request(config.targetUrl);
-    let html = await req.loadString();
-    
-    // Process the HTML content as needed (e.g., extract specific data)
-    return html; // For demonstration, returning the raw HTML
-}
-
-// Function to send captured data to the API
-async function sendToAPI(data) {
-    let req = new Request(config.apiUrl);
-    req.method = 'POST'; // Change to 'GET', 'PUT', etc., as needed
-    req.headers = config.headers;
-    req.body = JSON.stringify({ content: data });
-    
-    let response = await req.loadJSON();
-    return response; // Handle response as needed
-}
-
-// Main function to execute the script
-async function main() {
-    if (args.queryParameters.action === 'captureContent') {
-        let data = await captureContent();
-        let response = await sendToAPI(data);
-        console.log(response); // Log the response for debugging
-        Script.complete();
-    } else {
-        // Setup widget if no action is specified
-        let widget = new ListWidget();
-        let button = widget.addText("Capture Content");
-        button.url = "scriptable:///run?scriptName=YourScriptName&action=captureContent"; // Replace with your script name
-        
-        Script.setWidget(widget);
-        Script.complete();
+    // Function to save configuration to localStorage
+    function saveConfig(apiUrl, headers) {
+        localStorage.setItem('apiUrl', apiUrl);
+        localStorage.setItem('headers', JSON.stringify(headers));
     }
-}
 
-// Run the main function
-await main();
+    // Function to load configuration from localStorage
+    function loadConfig() {
+        return {
+            apiUrl: localStorage.getItem('apiUrl') || '',
+            headers: JSON.parse(localStorage.getItem('headers')) || {}
+        };
+    }
+
+    // Function to send captured content to the API
+    function sendToApi(data) {
+        const config = loadConfig();
+        const apiUrl = config.apiUrl;
+        const headers = config.headers;
+
+        if (!apiUrl) {
+            alert("API URL is not configured!");
+            return;
+        }
+
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: apiUrl,
+            headers: {
+                "Content-Type": "application/json",
+                ...headers // Spread operator to include any additional headers
+            },
+            data: JSON.stringify({ content: data }),
+            onload: function(response) {
+                console.log('Response:', response.responseText);
+                alert("Data sent successfully!");
+            },
+            onerror: function(error) {
+                console.error('Error:', error);
+                alert("Error sending data.");
+            }
+        });
+    }
+
+    // Create and append the main button to capture content
+    const button = document.createElement('button');
+    button.innerText = 'Send Content';
+    button.style.position = 'fixed'; // Make it fixed position for easy access
+    button.style.bottom = '20px';
+    button.style.right = '20px';
+    button.style.zIndex = '1000';
+    document.body.appendChild(button);
+
+    button.addEventListener('click', () => {
+        const content = document.body.innerText; // Capture content
+        sendToApi(content); // Call function to send data
+    });
+
+    // Create and append the configuration button
+    const configButton = document.createElement('button');
+    configButton.innerText = 'Configure API';
+    configButton.style.position = 'fixed'; // Make it fixed position for easy access
+    configButton.style.bottom = '60px';
+    configButton.style.right = '20px';
+    configButton.style.zIndex = '1000';
+    document.body.appendChild(configButton);
+
+    configButton.addEventListener('click', () => {
+        const apiUrl = prompt("Enter API URL:", loadConfig().apiUrl);
+        const headersInput = prompt("Enter Headers (JSON format):", JSON.stringify(loadConfig().headers));
+        
+        try {
+            const headers = JSON.parse(headersInput);
+            saveConfig(apiUrl, headers);
+            alert("Configuration saved!");
+        } catch (e) {
+            alert("Invalid headers format. Please enter valid JSON.");
+        }
+    });
+
+})();
