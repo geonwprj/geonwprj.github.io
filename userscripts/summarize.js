@@ -1,9 +1,8 @@
 // ==UserScript==
-// @name         My Custom Button Script
-// @namespace    http://tampermonkey.net/
+// @name         Summarize
 // @version      0.1
-// @description  Adds a button to capture content and send to an API
-// @include      https://example.com/*  // Change this to your target website(s)
+// @description  Summarize content
+// @updateURL    https://raw.githubysercontent.com/geonwprj/geonwprj.github.io/main/userscripts/summarize.js  // Change this to your target website(s)
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
