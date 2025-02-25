@@ -7,10 +7,19 @@ Each video item is wrapped in an anchor element that links to a detail page with
 document.addEventListener("DOMContentLoaded", function() {
     // Get URL parameters; assuming getAllUrlParams() is defined elsewhere in your project.
     const source = getAllUrlParams().source;
+    const ac = getAllUrlParams().ac || 'list';
+    const ids = getAllUrlParams().ids || '';
     const pages = {
         'bfzyapi': 'https://app.bfzyapi.com/api.php/provide/vod/'
     };
-    const page = pages[source];
+    let page = pages[source];
+    page = '${page}?source=${source}'
+    if (ac!='') {
+        page = '${page}&ac=${ac}'
+    }
+    if (ids!='') {
+        page = '${page}&ids=${ids}'
+    }
     // Using a proxy to avoid CORS issues (if needed)
     const proxyUrl = 'https://black-sun-84b9.fpzw5pvb5j.workers.dev/?url=';
     // Use template literal to generate final apiUrl; note the backticks.
