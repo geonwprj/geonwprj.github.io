@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const source = params.source;
     const ac = params.ac;   // check if 'ac' is detail
     const pages = {
-        'bfzyapi': 'https://app.bfzyapi.com/api.php/provide/vod/'
+        'bfzyapi': 'https://app.bfzyapi.com/api.php/provide/vod/',
+        'apibdzy': 'https://api.apibdzy.com/api.php/provide/vod/'
     };
     const page = pages[source];
     if (!page) {
