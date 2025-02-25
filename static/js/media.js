@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log('0.0.2');
+    console.log('0.0.3');
 
     const params = getAllUrlParams();
     const source = params.source;
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
             // Process vod_play_url
             if (item.vod_play_url) {
-                let playUrls = item.vod_play_url.split(','); // Assuming multiple URLs are comma-separated
+                let playUrls = item.vod_play_url.split('#'); // Assuming multiple URLs are comma-separated
                 let playList = document.createElement('ul'); // Create a list for play URLs
     
                 playUrls.forEach(playUrl => {
