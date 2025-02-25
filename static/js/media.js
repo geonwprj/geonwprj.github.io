@@ -5,7 +5,7 @@ Each video item is wrapped in an anchor element that links to a detail page with
 */
 
 document.addEventListener("DOMContentLoaded", function() {
-    console.log('0.0.1');
+    console.log('0.0.2');
     // Get URL parameters; assuming getAllUrlParams() is defined elsewhere in your project.
     const source = getAllUrlParams().source;
     const ac = getAllUrlParams().ac || 'list';
@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const proxyUrl = 'https://black-sun-84b9.fpzw5pvb5j.workers.dev/?url=';
     // Use template literal to generate final apiUrl; note the backticks.
     const apiUrl = `${proxyUrl}${page}`;
+    console.log(apiUrl);
     
     // Use the Fetch API to get and process JSON
     fetch(apiUrl)
