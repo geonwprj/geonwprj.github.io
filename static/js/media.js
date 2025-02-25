@@ -1,12 +1,20 @@
 /*
 Using vanilla JavaScript's Fetch API to request the JSON data and then render it.
 Each video item is wrapped in an anchor element that links to a detail page with the URL format:
-    [current_page]?ac=detail&ids=[vod_id]
+    [current_page]?source=[source]&ac=detail&ids=[vod_id]
 */
 
 document.addEventListener("DOMContentLoaded", function() {
+    // Get URL parameters; assuming getAllUrlParams() is defined elsewhere in your project.
+    const source = getAllUrlParams().source;
+    const pages = {
+        'bfzyapi': 'https://app.bfzyapi.com/api.php/provide/vod/'
+    };
+    const page = pages[source];
+    // Using a proxy to avoid CORS issues (if needed)
     const proxyUrl = 'https://black-sun-84b9.fpzw5pvb5j.workers.dev/?url=';
-    const apiUrl = proxyUrl+'https://app.bfzyapi.com/api.php/provide/vod/';
+    // Use template literal to generate final apiUrl; note the backticks.
+    const apiUrl = `${proxyUrl}${page}`;
     
     // Use the Fetch API to get and process JSON
     fetch(apiUrl)
@@ -35,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
           // Create a container for each video item, wrapped in a link to its detail page.
           let link = document.createElement('a');
           // Build detail URL; you may wish to change the base URL if needed.
-          link.href = `?ac=detail&ids=${item.vod_id}`;
+          link.href = `?source=${source}&ac=detail&ids=${item.vod_id}`;
           link.style.textDecoration = 'none'; // remove underline; adjust via CSS if preferred.
           link.style.color = 'inherit';       // inherit color; adjust as needed.
           
