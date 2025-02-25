@@ -1,0 +1,26 @@
+/* Add your existing styles here. For example: */
+
+body {
+    font-family: sans-serif;
+    margin: 2rem;
+    background-color: #f2f2f2;
+}
+
+/* Style for each video item container */
+.vod-item {
+    background: #fff;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Title styling */
+.vod-item h2 {
+    margin: 0 0 0.5rem 0;
+}
+
+/* Metadata styling */
+.vod-item .meta {
+    color: #555;
+}
