@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", function() {
         'bfzyapi': 'https://app.bfzyapi.com/api.php/provide/vod/'
     };
     let page = pages[source];
-    page = page+'?source=${source}'
+    page = `${page}?source=${source}`;
     if (ac!='') {
-        page = page+'&ac=${ac}'
+        page = `${page}&ac=${ac}`;
     }
     if (ids!='') {
-        page = page+'&ids=${ids}'
+        page = `${page}&ids=${ids}`;
     }
     // Using a proxy to avoid CORS issues (if needed)
     const proxyUrl = 'https://black-sun-84b9.fpzw5pvb5j.workers.dev/?url=';
