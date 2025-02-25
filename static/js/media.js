@@ -5,7 +5,7 @@ Each video item is wrapped in an anchor element that links to a detail page with
 */
 
 document.addEventListener("DOMContentLoaded", function() {
-    console.log('0.0.2');
+    console.log('0.0.4');
     // Get URL parameters; assuming getAllUrlParams() is defined elsewhere in your project.
     const source = getAllUrlParams().source;
     const ac = getAllUrlParams().ac || 'list';
@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", function() {
         'bfzyapi': 'https://app.bfzyapi.com/api.php/provide/vod/'
     };
     let page = pages[source];
-    page = `${page}?source=${source}`;
+    // page = `${page}?source=${source}`;
     if (ac!='') {
-        page = `${page}&ac=${ac}`;
+        page = `${page}?ac=${ac}`;
     }
     if (ids!='') {
         page = `${page}&ids=${ids}`;
