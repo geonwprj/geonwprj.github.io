@@ -5,7 +5,7 @@ Each video item is wrapped in an anchor element that links to a detail page with
 */
 
 document.addEventListener("DOMContentLoaded", function() {
-    console.log('0.0.1')
+    console.log('0.0.1');
     // Get URL parameters; assuming getAllUrlParams() is defined elsewhere in your project.
     const source = getAllUrlParams().source;
     const ac = getAllUrlParams().ac || 'list';
