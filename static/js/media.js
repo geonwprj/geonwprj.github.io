@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log('0.0.1');
+    console.log('0.0.2');
 
     const params = getAllUrlParams();
     const source = params.source;
@@ -76,6 +76,52 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function renderDetail(data) {
+        container.innerHTML = '';  // Clear loading message
+        if (data.list && data.list.length > 0) {
+            const item = data.list[0];  // Detail is expected in first item
+            let detailDiv = document.createElement('div');
+            detailDiv.className = 'vod-item';
+    
+            let title = document.createElement('h2');
+            title.textContent = item.vod_name;
+            detailDiv.appendChild(title);
+    
+            let meta = document.createElement('p');
+            meta.className = 'meta';
+            meta.textContent = `Category: ${item.type_name} | Released: ${item.vod_time} | Remarks: ${item.vod_remarks}`;
+            detailDiv.appendChild(meta);
+    
+            if (item.vod_pic) {
+                let image = document.createElement('img');
+                image.src = item.vod_pic;
+                image.alt = item.vod_name;
+                image.style.maxWidth = '100%';
+                detailDiv.appendChild(image);
+            }
+    
+            // Process vod_play_url
+            if (item.vod_play_url) {
+                let playUrls = item.vod_play_url.split(','); // Assuming multiple URLs are comma-separated
+                let playList = document.createElement('ul'); // Create a list for play URLs
+    
+                playUrls.forEach(playUrl => {
+                    let [name, url] = playUrl.split('$'); // Split by '$' to get name and URL
+                    let listItem = document.createElement('li');
+                    let link = document.createElement('a');
+                    link.href = url;
+                    link.textContent = name; // Display the name
+                    link.target = '_blank'; // Open in a new tab
+                    listItem.appendChild(link);
+                    playList.appendChild(listItem);
+                });
+    
+                detailDiv.appendChild(playList); // Append the list to the detailDiv
+            }
+    
+            container.appendChild(detailDiv);
+        } else {
+            container.innerHTML = '<p>No detail data found.</p>';
+        }
       container.innerHTML = '';  // Clear loading message
       if (data.list && data.list.length > 0) {
         const item = data.list[0];
